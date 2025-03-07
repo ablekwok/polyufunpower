@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-hk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Iansui&family=Righteous&display=swap" rel="stylesheet">
+    <title>五子棋</title>
+    <style>
+        .righteous-regular {
+            font-family: "Righteous", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+
+        .iansui-regular {
+            font-family: "Iansui", cursive;
+            font-weight: bold;
+            font-weight: 600;
+            font-style: normal;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
+            position: relative;
+        }
+
+        #board {
+            display: grid;
+            gap: 1px;
+            background-color: #a57441;
+            border: 2px solid #846b4f;
+        }
+        .flex-container{
+            display: inline-flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            background-color: #fff5db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .piece {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .black {
+            background-color: black;
+        }
+
+        .white {
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        .cell:hover {
+            background-color: #846b4f;
+        }
+
+        #message {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top:40%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81)), url("/images/homepagebg.jpg");
+            background-size: cover;
+            background-position: bottom;
+            background-attachment: fixed;
+            padding: 35px;
+            border-radius: 30px;
+            border: 5px solid #fffefd;
+        }
+
+
+        #sizeInput {
+            margin-bottom: 10px;
+        }
+
+        #controls {
+            position: relative;
+            top: 10px;
+            right: 0px;
+            margin: 10px;
+            text-align: right;
+        }
+
+        .avatar {
+            width: 80px;
+            height: auto;
+            margin: 10px;
+            border: 5px solid transparent !important;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
+
+        .active {
+            border: 5px solid orange !important;
+        }
+
+        .overlay-piece {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+            display: none;
+        }
+
+        
+        button {
+            margin: 10px;
+            padding: 12px 22px;
+            font-size: 24px;
+            border-radius: 10px;
+            border: 3px solid black;
+            background-color: #77db9d;
+            cursor: pointer;
+            font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top:48%;
+            left: 44%;
+            transform: translate(-50%, -50%);
+        }
+
+        button:hover {
+            background-color: #e25300;
+            color: white;
+        }
+
+        .smallbutton{
+            position: relative;
+            padding: 5px 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid black;
+            background-color: lightgray;
+            display: inline-block;
+            width: fit-content;
+        }
+    </style>
+</head>
+
+<div>
+    <div id="controls" style="display: none;">
+        <input type="number" id="sizeInput" value="15" min="5" max="30" />
+        <div id="createBoard" class="smallbutton">創建棋盤</div>
+    </div>
+    <div class="flex-container">
+        <div id="board"></div>
+        <div class="messagebox">
+            <div><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
+            <div><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
+        </div>
+    </div>
+    <div id="message"></div>
+    <button class="functionalbutton" id="restart">再來一局</button>
+    <div class="overlay-piece" id="overlayPiece"></div>
+    <audio id="clicksound" src="/images/bubblepop.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="/images/funnycheers.mp3" preload="auto" autoplay loop></audio>
+    <script>
+        let boardSize = 15;
+        let board;
+        let currentPlayer = 'black';
+
+        const boardElement = document.getElementById('board');
+        const messageElement = document.getElementById('message');
+        const restartButton = document.getElementById('restart');
+        const sizeInput = document.getElementById('sizeInput');
+        const createBoardButton = document.getElementById('createBoard');
+        const blackAvatar = document.getElementById('blackAvatar');
+        const whiteAvatar = document.getElementById('whiteAvatar');
+        const overlayPiece = document.getElementById('overlayPiece');
+     
+
+
+        // Initialize the board
+        function initBoard(size) {
+            boardSize = size;
+            board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
+            boardElement.innerHTML = ''; // Clear the board
+
+            boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
+            boardElement.style.gridTemplateRows = `repeat(${boardSize}, 40px)`;
+
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', handleCellClick);
+                    cell.addEventListener('mouseenter', () => showOverlayPiece(cell));
+                    cell.addEventListener('mouseleave', hideOverlayPiece);
+                    boardElement.appendChild(cell);
+                }
+            }
+            messageElement.style.display = 'none';
+            restartButton.style.display = 'none';
+            messageElement.textContent = ''; // Clear message
+            updateAvatarBorder();
+
+        }
+
+        // Show overlay piece
+        function showOverlayPiece(cell) {
+            const rect = cell.getBoundingClientRect();
+            overlayPiece.style.left = `${rect.left}px`;
+            overlayPiece.style.top = `${rect.top}px`;
+            overlayPiece.style.display = 'block';
+            overlayPiece.className = `overlay-piece ${currentPlayer}`;
+        }
+
+        // Hide overlay piece
+        function hideOverlayPiece() {
+            overlayPiece.style.display = 'none';
+        }
+
+        // Handle cell click event
+        function handleCellClick(event) {
+            const row = event.target.dataset.row;
+            const col = event.target.dataset.col;
+            document.getElementById('clicksound').play();
+
+            if (board[row][col] || checkWinner()) return;
+
+            board[row][col] = currentPlayer;
+            const piece = document.createElement('div');
+            piece.className = `piece ${currentPlayer}`;
+            event.target.appendChild(piece);
+            hideOverlayPiece();
+
+            if (checkWinner()) {
+                messageElement.textContent = `${currentPlayer === 'black' ? '黑豬仔' : '白豬仔'} 獲勝 !`;
+                messageElement.style.display = 'block';
+                setTimeout(() => {
+                    restartButton.style.display = 'block';
+                }, 1000);
+            } else {
+                currentPlayer = currentPlayer === 'black' ? 'white' : 'black';
+                updateAvatarBorder();
+            }
+        }
+
+        // Update avatar border
+        function updateAvatarBorder() {
+            if (currentPlayer === 'black') {
+                blackAvatar.classList.add('active');
+                whiteAvatar.classList.remove('active');
+            } else {
+                whiteAvatar.classList.add('active');
+                blackAvatar.classList.remove('active');
+            }
+        }
+
+        // Check for a winner
+        function checkWinner() {
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    if (board[i][j] && (checkDirection(i, j, 1, 0) ||
+                        checkDirection(i, j, 0, 1) ||
+                        checkDirection(i, j, 1, 1) ||
+                        checkDirection(i, j, 1, -1))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Check for consecutive pieces in a given direction
+        function checkDirection(row, col, rowDir, colDir) {
+            let count = 0;
+            const player = board[row][col];
+
+            for (let k = 0; k < 5; k++) {
+                const newRow = row + k * rowDir;
+                const newCol = col + k * colDir;
+
+                if (newRow >= 0 && newRow < boardSize && newCol >= 0 && newCol < boardSize && board[newRow][newCol] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count === 5;
+        }
+
+        // Create board on button click
+        createBoardButton.addEventListener('click', () => {
+            const size = parseInt(sizeInput.value, 10);
+            if (size >= 5 && size <= 30) {
+                initBoard(size);
+            } else {
+                alert('請輸入有效的棋盤大小（5到30）');
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            initBoard(boardSize);
+        });
+
+        // Initialize default board
+        initBoard(boardSize);
+    </script>
+</body>
+
+</html>
