@@ -22,6 +22,7 @@
             font-weight: 600;
             font-style: normal;
         }
+
         body {
             display: flex;
             flex-direction: column;
@@ -38,13 +39,15 @@
             background-color: #a57441;
             border: 2px solid #846b4f;
         }
-        .flex-container{
+
+        .flex-container {
             display: inline-flex;
             width: 100%;
             justify-content: center;
             align-items: center;
             flex-direction: row;
         }
+
         .cell {
             width: 40px;
             height: 40px;
@@ -79,7 +82,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            top:40%;
+            top: 40%;
             left: 45%;
             transform: translate(-50%, -50%);
             font-size: 48px;
@@ -93,7 +96,6 @@
             border-radius: 30px;
             border: 5px solid #fffefd;
         }
-
 
         #sizeInput {
             margin-bottom: 10px;
@@ -131,7 +133,6 @@
             display: none;
         }
 
-        
         button {
             margin: 10px;
             padding: 12px 22px;
@@ -145,7 +146,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            top:48%;
+            top: 48%;
             left: 44%;
             transform: translate(-50%, -50%);
         }
@@ -154,8 +155,7 @@
             background-color: #e25300;
             color: white;
         }
-
-        .smallbutton{
+        .smallbutton {
             position: relative;
             padding: 5px 5px;
             font-size: 16px;
@@ -168,7 +168,6 @@
     </style>
 </head>
 
-<div>
     <div id="controls" style="display: none;">
         <input type="number" id="sizeInput" value="15" min="5" max="30" />
         <div id="createBoard" class="smallbutton">創建棋盤</div>
@@ -189,7 +188,6 @@
         let boardSize = 15;
         let board;
         let currentPlayer = 'black';
-
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
         const restartButton = document.getElementById('restart');
@@ -198,8 +196,6 @@
         const blackAvatar = document.getElementById('blackAvatar');
         const whiteAvatar = document.getElementById('whiteAvatar');
         const overlayPiece = document.getElementById('overlayPiece');
-     
-
 
         // Initialize the board
         function initBoard(size) {
@@ -330,6 +326,6 @@
         // Initialize default board
         initBoard(boardSize);
     </script>
-</body>
+    </body>
 
 </html>
