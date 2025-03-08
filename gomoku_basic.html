@@ -78,6 +78,7 @@
             border: 3px solid black;
             background-color: #77db9d;
             cursor: pointer;
+            color: black;
             font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
         }
 
@@ -225,7 +226,7 @@
         <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div></div>
 
         <div id="gamecover">
-        <video id="introVideo" muted>
+        <video id="introVideo" muted webkit-playsinline playsinline>
             <source src="images/gomoku.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
