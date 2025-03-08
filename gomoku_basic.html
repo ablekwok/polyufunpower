@@ -23,7 +23,8 @@
             font-style: normal;
         }
 
-        body, html {
+        body,
+        html {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -45,12 +46,6 @@
             margin: 10px 5vw;
             text-align: center;
             max-height: 90vh;
-        }
-
-        @media screen and (max-width: 600px) {
-            body, html{
-                margin: 0;
-            }
         }
 
         #introVideo {
@@ -87,7 +82,7 @@
             color: white;
         }
 
-        .mainbutton{
+        .mainbutton {
             position: absolute;
             display: flex;
             justify-content: center;
@@ -96,6 +91,7 @@
             left: 44%;
             transform: translate(-50%, -50%);
         }
+
         .smallbutton {
             position: relative;
             padding: 5px 5px;
@@ -120,13 +116,14 @@
             background-color: #a57441;
             border: 2px solid #846b4f;
         }
-        
+
         .flex-container {
             display: inline-flex;
             width: 100%;
             justify-content: center;
             align-items: center;
             flex-direction: row;
+            flex-wrap: wrap;
         }
 
         .cell {
@@ -178,6 +175,13 @@
             border: 5px solid #fffefd;
         }
 
+        .messagebox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
         #sizeInput {
             margin-bottom: 10px;
         }
@@ -213,8 +217,21 @@
             pointer-events: none;
             display: none;
         }
-        #loadgame:hover{
+
+        #loadgame:hover {
             filter: drop-shadow(0 0 0.75rem rgb(255, 255, 255));
+        }
+
+        @media screen and (max-width: 600px) {
+
+            body,
+            html {
+                margin: 0;
+            }
+
+            .messagebox {
+                flex-direction: row;
+            }
         }
     </style>
 </head>
@@ -222,46 +239,48 @@
 <body>
     <div class="container">
 
-        <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 20%; z-index: 999; cursor: pointer; top: 50%; left: 50%;" src="images/playbutton.png" alt="開始遊戲" onclick="loadgame()">
-        <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div></div>
+        <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 20%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
+                src="images/playbutton.png" alt="開始遊戲" onclick="loadgame()">
+            <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div>
+        </div>
 
         <div id="gamecover">
-        <video id="introVideo" muted webkit-playsinline playsinline>
-            <source src="images/gomoku.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div id="gamemenu" style="display: none;">
-            <div class="titleimg"> 
-        <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
-            <img width="95%" src="images/piggy_gomoku_title.png" alt="五子棋">
-        </div>
-    </div>
-        <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
-            <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="startGame()">開始</button>
-        </div>
-    </div>
-    </div>
-    <div id="maingame" style="display: none; background-color: rgb(94, 111, 63);">  
-        <div id="controls" style="display: none;">
-            <input type="number" id="sizeInput" value="15" min="5" max="30" />
-            <div id="createBoard" class="smallbutton">創建棋盤</div>
-        </div>
-        <div class="flex-container">
-            <div id="board"></div>
-            <div class="messagebox">
-                <div><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
-                <div><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
+            <video id="introVideo" muted webkit-playsinline playsinline>
+                <source src="images/gomoku.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div id="gamemenu" style="display: none;">
+                <div class="titleimg">
+                    <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
+                        <img width="95%" src="images/piggy_gomoku_title.png" alt="五子棋">
+                    </div>
+                </div>
+                <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
+                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="startGame()">開始</button>
+                </div>
             </div>
         </div>
-        <div id="message"></div>
-        <button class="mainbutton" id="restart">再來一局</button>
+        <div id="maingame" style="display: none; background-color: rgb(94, 111, 63);">
+            <div id="controls" style="display: none;">
+                <input type="number" id="sizeInput" value="15" min="5" max="30" />
+                <div id="createBoard" class="smallbutton">創建棋盤</div>
+            </div>
+            <div class="flex-container">
+                <div id="board"></div>
+                <div class="messagebox">
+                    <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
+                    <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
+                </div>
+            </div>
+            <div id="message"></div>
+            <button class="mainbutton" id="restart">再來一局</button>
+        </div>
+        <div class="overlay-piece" id="overlayPiece"></div>
     </div>
-    <div class="overlay-piece" id="overlayPiece"></div>
-    </div>
-    
-  
+
+
     <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
-    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto"  loop></audio>
+    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
     <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
         const video = document.getElementById('introVideo');
@@ -293,11 +312,18 @@
             document.getElementById("maingame").style.display = "block";
             document.getElementById('clicksound').play();
 
-        initBoard(boardSize);
+            initBoard(boardSize);
+
         }
-   // Initialize the board
+        // Initialize the board
         function initBoard(size) {
-            boardSize = size;
+            var screensize = window.innerWidth;
+            if (screensize <= 600) {
+                boardSize = 8;
+            } else {
+                boardSize = size;
+            }
+
             board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
             boardElement.innerHTML = ''; // Clear the board
             boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
