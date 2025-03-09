@@ -319,7 +319,7 @@
             document.getElementById("gamecover").style.display = "none";
             document.getElementById("maingame").style.display = "block";
             document.getElementById('clicksound').play();
-
+            document.getElementsByClassName("container")[0].style.maxHeight = "100vh";
             initBoard(boardSize);
 
         }
