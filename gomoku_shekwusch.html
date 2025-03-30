@@ -46,9 +46,13 @@
             margin: 10px 5vw;
             text-align: center;
             max-height: fit-content;
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(66, 41, 41, 0.7);
+            background-blend-mode: darken;
         }
 
-        #introVideo {
+        .coverbg {
             width: 100%;
             max-height: 80vh;
             object-fit: cover;
@@ -290,7 +294,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="background-image: url('/images/shekwusch/background.jpg');">
 
         <!-- //Note: Loading Page -->
         <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 20%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
@@ -301,10 +305,7 @@
         <!-- //Note: Game Menu -->
 
         <div id="gamecover">
-            <video id="introVideo" muted webkit-playsinline playsinline>
-                <source src="images/gomoku.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <img class="coverbg" src="images/shekwusch/background.jpg">
             <div id="gamemenu" style="display: none;">
                 <div class="titleimg">
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
@@ -349,7 +350,7 @@
                 <div id="board"></div>
                 <div class="messagebox">
                     <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
-                    <div istyle="display: none;" d="card-area"></div>
+                    <div istyle="display: none;" id="card-area"></div>
                     <button id="draw-card" onclick="drawCard()">抽卡</button>
                     <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
                 </div>
@@ -365,13 +366,12 @@
     <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
     <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
-        const video = document.getElementById('introVideo');
 
         function loadgame() {
             //document.getElementById("bgmusic").play();
             document.getElementById("loadgamemask").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
-            video.play();
+  
         }
 
         let boardSize = 15;
@@ -611,7 +611,7 @@
         }
 
         function drawCard() {
-            if(canDrawCard){
+            if(canDrawCard ==true){
             const card = Math.random() < 0.8 ? 'yellow' : 'black'; // 80%的機率
             cardArea.textContent = `抽到的卡片: ${card}`;
 
