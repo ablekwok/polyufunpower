@@ -1,0 +1,58 @@
+<div id="avatarSelection" style="display: flex; justify-content: center; margin: 10px;">
+    <div>
+        <h3>玩家 1 頭像與顏色</h3>
+        <img src="images/avatar1.png" class="avatarChoice" onclick="selectAvatar('player1', 'images/avatar1.png', 'black')" />
+        <img src="images/avatar2.png" class="avatarChoice" onclick="selectAvatar('player1', 'images/avatar2.png', 'white')" />
+        <img src="images/avatar3.png" class="avatarChoice" onclick="selectAvatar('player1', 'images/avatar3.png', 'blue')" />
+        <img src="images/avatar4.png" class="avatarChoice" onclick="selectAvatar('player1', 'images/avatar4.png', 'orange')" />
+        <img src="images/avatar5.png" class="avatarChoice" onclick="selectAvatar('player1', 'images/avatar5.png', 'pink')" />
+    </div>
+    <div>
+        <h3>玩家 2 頭像與顏色</h3>
+        <img src="images/avatar1.png" class="avatarChoice" onclick="selectAvatar('player2', 'images/avatar1.png', 'black')" />
+        <img src="images/avatar2.png" class="avatarChoice" onclick="selectAvatar('player2', 'images/avatar2.png', 'white')" />
+        <img src="images/avatar3.png" class="avatarChoice" onclick="selectAvatar('player2', 'images/avatar3.png', 'blue')" />
+        <img src="images/avatar4.png" class="avatarChoice" onclick="selectAvatar('player2', 'images/avatar4.png', 'orange')" />
+        <img src="images/avatar5.png" class="avatarChoice" onclick="selectAvatar('player2', 'images/avatar5.png', 'pink')" />
+    </div>
+</div>
+
+<button id="drawCardButton" onclick="drawCard()">抽卡</button>
+<div id="cardResults" style="display: flex; justify-content: center;">
+    <div id="player1Card" style="margin: 10px;">玩家1: </div>
+    <div id="player2Card" style="margin: 10px;">玩家2: </div>
+</div>
+
+
+<script>
+let player1Avatar, player1Color;
+let player2Avatar, player2Color;
+
+function selectAvatar(player, avatar, color) {
+    if (player === 'player1') {
+        player1Avatar = avatar;
+        player1Color = color;
+    } else {
+        player2Avatar = avatar;
+        player2Color = color;
+    }
+    updateAvatarDisplay();
+}
+
+function updateAvatarDisplay() {
+    // 更新頭像顯示
+    document.getElementById('blackAvatar').src = player1Avatar || 'defaultAvatar.png';
+    document.getElementById('whiteAvatar').src = player2Avatar || 'defaultAvatar.png';
+    // 此處可根據選擇顏色更新遊戲邏輯
+}
+
+function drawCard() {
+    const card1 = Math.random() < 0.5 ? 'yellow' : 'black';
+    const card2 = Math.random() < 0.5 ? 'yellow' : 'black';
+    
+    document.getElementById('player1Card').textContent = `玩家1: ${card1}`;
+    document.getElementById('player2Card').textContent = `玩家2: ${card2}`;
+    
+    // 根據抽到的卡牌決定是否可以下棋
+
+</script>
