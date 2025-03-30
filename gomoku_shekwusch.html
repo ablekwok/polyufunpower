@@ -48,8 +48,9 @@
             max-height: fit-content;
             background-size: cover;
             background-position: center;
-            background-color: rgba(66, 41, 41, 0.7);
-            background-blend-mode: darken;
+            background-color:#A9E3E4;
+            width:95%;
+            max-width: 1280px;
         }
 
         .coverbg {
@@ -124,10 +125,14 @@
         .flex-container {
             display: inline-flex;
             width: 100%;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             flex-direction: row;
             flex-wrap: wrap;
+            background-image: url('/images/shekwusch/background.jpg');
+            background-position: bottom 0px right;
+            background-size: 30%;
+            background-repeat: no-repeat;
         }
 
         .cell {
@@ -188,8 +193,8 @@
             background-size: cover;
             background-position: bottom;
             background-attachment: fixed;
-            padding: 35px;
-            border-radius: 30px;
+            padding: 20px;
+            border-radius: 25px;
             border: 5px solid #fffefd;
         }
 
@@ -198,6 +203,8 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            margin: auto;
+            padding-bottom:15%;
         }
 
         #sizeInput {
@@ -281,23 +288,28 @@
 
             .messagebox {
                 flex-direction: row;
+                padding-bottom:0px;
             }
 
             .container {
                 border: 5px solid #767676;
                 border-radius: 0px;
                 position: relative;
-                margin: 0;
+                margin: auto;
+            }
+            .flex-container{
+            background-image: none;
+            justify-content: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container" style="background-image: url('/images/shekwusch/background.jpg');">
+    <div class="container" >
 
         <!-- //Note: Loading Page -->
-        <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 20%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
+        <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 25%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
                 src="images/playbutton.png" alt="開始遊戲" onclick="loadgame()">
             <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div>
         </div>
@@ -307,20 +319,25 @@
         <div id="gamecover">
             <img class="coverbg" src="images/shekwusch/background.jpg">
             <div id="gamemenu" style="display: none;">
-                <div class="titleimg">
+                <div class="titleimg" style="width: 60%; top:55% ">
+                    
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
-                        <img width="95%" src="images/piggy_gomoku_title.png" alt="五子棋">
+                        <img width="95%" src="images/shekwusch/logo.png" alt="五子棋">
+                    </div>
+
+                    <div class="animate__animated animate__lightSpeedInRight">
+                        <img width="80%" src="images/shekwusch/Cover01.png" alt="五子棋">
                     </div>
                 </div>
                 <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
-                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()">開始</button>
+                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"><img style="width: 10vw; min-width: 50px; max-width: 100px;" src="images/shekwusch/startgame.png" alt="開始遊戲"></button>
                 </div>
             </div>
         </div>
 
         <!-- //Note: Choose Avator-->
-        <div id="chooseavator" style="display: none;">
-            <div style="font-size: calc(16px + 1.2vw);">
+        <div id="chooseavator" style="display:none;" >
+            <div style="font-size: calc(16px + 1.2vw)">
                 <div style="margin: 4% 12%; ">
                     <div>選擇你的角色和棋子顏色</div><br>
                     <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
@@ -341,22 +358,24 @@
         </div>
 
         <!-- //Note: Main Game -->
-        <div id="maingame" style="display: none; background-color: rgb(94, 111, 63);">
+        <div id="maingame" style="display: none; background-color: #A9E3E4; ">
             <div id="controls" style="display: none;">
                 <input type="number" id="sizeInput" value="15" min="5" max="30" />
                 <div id="createBoard" class="smallbutton">創建棋盤</div>
             </div>
             <div class="flex-container">
                 <div id="board"></div>
-                <div class="messagebox">
+                <div class="messagebox" >
+     
                     <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
                     <div style="display: none;" id="card-area"></div>
                     <button id="draw-card" onclick="drawCard()">抽卡</button>
                     <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
+              
                 </div>
             </div>
             <div id="message"></div>
-            <button class="mainbutton" id="restart">再來一局</button>
+            <button class="mainbutton" id="restart" style="color:#e25300"><img style="width: 12vw; min-width: 100px; max-width: 150px;" src="images/shekwusch/restartgame.png" alt="再來一局"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
     </div>
@@ -403,6 +422,12 @@
         cardimg.style.minWidth="110px";
         var goodcard = "images/shekwusch/goodcard.png";
         var badcard = "images/shekwusch/badcard.png";
+
+        var victoryimg1 = document.createElement("img");
+        victoryimg1.setAttribute("src", "images/shekwusch/victory_top.png");
+        victoryimg1.style.width="20vw";
+        victoryimg1.style.minWidth="130px";
+        victoryimg1.style.maxWidth="200px";
 
         function chooseAvator() {
             document.getElementById('clicksound').play();
@@ -582,7 +607,11 @@
             hideOverlayPiece();
 
             if (checkWinner()) {
-                messageElement.textContent = `${currentPlayer === Piece1 ? '玩家一' : '玩家二'} 獲勝 !`;
+                messageElement.textContent="";
+                messageElement.appendChild(victoryimg1);
+                var victorytext = `${currentPlayer === Piece1 ? '玩家一' : '玩家二'} 獲勝 !`;
+                let victorytextcontainer = document.createElement("div");
+                victoryimg1.after(victorytextcontainer, victorytext);
                 messageElement.style.background= "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
                 messageElement.style.display = 'block';
                 document.getElementById('victorysound').play();
@@ -684,6 +713,7 @@
 
         restartButton.addEventListener('click', () => {
             initBoard(boardSize);
+            messageElement.textContent="";
             document.getElementById('clicksound').play();
         });
 
