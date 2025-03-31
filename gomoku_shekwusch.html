@@ -131,7 +131,7 @@
             flex-wrap: wrap;
             background-image: url('/images/shekwusch/background.jpg');
             background-position: bottom 0px right;
-            background-size: 30%;
+            background-size: 35%;
             background-repeat: no-repeat;
         }
 
@@ -566,8 +566,10 @@
         }
 
         function showcard(){
+
             messageElement.style.display = 'block';
             setTimeout(() => {messageElement.style.display = 'none';}, 2000);
+            
         }
 
         // Show overlay piece
@@ -655,7 +657,7 @@
                 console.log("可以下棋！");
             } else {
                 canPlay = false; // 玩家不能下棋，輪到另一位玩家
-                canDrawCard = true;
+                canDrawCard = false;
                 messageElement.textContent="";
                 cardimg.src=badcard;
                 messageElement.appendChild(cardimg);
