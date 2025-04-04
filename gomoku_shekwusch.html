@@ -48,8 +48,8 @@
             max-height: fit-content;
             background-size: cover;
             background-position: center;
-            background-color:#A9E3E4;
-            width:95%;
+            background-color: #A9E3E4;
+            width: 95%;
             max-width: 1280px;
         }
 
@@ -208,7 +208,7 @@
             align-items: center;
             flex-direction: column;
             margin: auto;
-            padding-bottom:15%;
+            padding-bottom: 15%;
         }
 
         #sizeInput {
@@ -292,7 +292,7 @@
 
             .messagebox {
                 flex-direction: row;
-                padding-bottom:0px;
+                padding-bottom: 0px;
             }
 
             .container {
@@ -301,16 +301,17 @@
                 position: relative;
                 margin: auto;
             }
-            .flex-container{
-            background-image: none;
-            justify-content: center;
+
+            .flex-container {
+                background-image: none;
+                justify-content: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container" >
+    <div class="container">
 
         <!-- //Note: Loading Page -->
         <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 25%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
@@ -324,7 +325,7 @@
             <img class="coverbg" src="images/shekwusch/background.jpg">
             <div id="gamemenu" style="display: none;">
                 <div class="titleimg" style="width: 60%; top:55% ">
-                    
+
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
                         <img width="95%" src="images/shekwusch/logo.png" alt="五子棋">
                     </div>
@@ -334,13 +335,14 @@
                     </div>
                 </div>
                 <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
-                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"><img style="width: 10vw; min-width: 50px; max-width: 100px;" src="images/shekwusch/startgame.png" alt="開始遊戲"></button>
+                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"><img
+                            style="width: 10vw; min-width: 50px; max-width: 100px;" src="images/shekwusch/startgame.png" alt="開始遊戲"></button>
                 </div>
             </div>
         </div>
 
         <!-- //Note: Choose Avator-->
-        <div id="chooseavator" style="display:none;" >
+        <div id="chooseavator" style="display:none;">
             <div style="font-size: calc(16px + 1.2vw)">
                 <div style="margin: 4% 12%; ">
                     <div>選擇你的角色和棋子顏色</div><br>
@@ -351,6 +353,7 @@
                     <div style="display: inline-block; "><img id="Avator3" class="avataroption" src="images/shekwusch/C3.png" alt="C3"></div>
                     <div style="display: inline-block; "><img id="Avator4" class="avataroption" src="images/shekwusch/C4.png" alt="C4"></div>
                     <div style="display: inline-block; "><img id="Avator5" class="avataroption" src="images/shekwusch/C5.png" alt="C5"></div>
+                    <div style="display: inline-block; "><img id="Avator6" class="avataroption" src="images/shekwusch/C6.png" alt="C6"></div>
                     <br>
                     <div id="black" class="pieceoption black"> </div>
                     <div id="white" class="pieceoption white"> </div>
@@ -369,17 +372,18 @@
             </div>
             <div class="flex-container">
                 <div id="board"></div>
-                <div class="messagebox" >
-     
+                <div class="messagebox">
+
                     <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
                     <div style="display: none;" id="card-area"></div>
                     <button id="draw-card" onclick="drawCard()">抽卡</button>
                     <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
-              
+
                 </div>
             </div>
             <div id="message"></div>
-            <button class="mainbutton orange" id="restart"><img style="width: 12vw; min-width: 100px; max-width: 150px;" src="images/shekwusch/restartgame.png" alt="再來一局"></button>
+            <button class="mainbutton orange" id="restart"><img style="width: 12vw; min-width: 100px; max-width: 150px;"
+                    src="images/shekwusch/restartgame.png" alt="再來一局"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
     </div>
@@ -393,7 +397,7 @@
             document.getElementById("bgmusic").play();
             document.getElementById("loadgamemask").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
-  
+
         }
 
         let boardSize = 15;
@@ -405,6 +409,8 @@
         let Piece1;
         let Avator2;
         let Piece2;
+        let card;
+        let double = 1;
 
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
@@ -422,22 +428,23 @@
 
         var cardimg = document.createElement("img");
         cardimg.setAttribute("src", "images/shekwusch/goodcard.png");
-        cardimg.style.width="16vw";
-        cardimg.style.minWidth="110px";
+        cardimg.style.width = "16vw";
+        cardimg.style.minWidth = "110px";
         var goodcard = "images/shekwusch/goodcard.png";
         var badcard = "images/shekwusch/badcard.png";
+        var goodcardx2 = "images/shekwusch/goodcardx2.png";
 
         var victoryimg1 = document.createElement("img");
         victoryimg1.setAttribute("src", "images/shekwusch/victory_top.png");
-        victoryimg1.style.width="20vw";
-        victoryimg1.style.minWidth="130px";
-        victoryimg1.style.maxWidth="200px";
+        victoryimg1.style.width = "20vw";
+        victoryimg1.style.minWidth = "130px";
+        victoryimg1.style.maxWidth = "200px";
 
         var victoryimg2 = document.createElement("img");
         victoryimg2.setAttribute("src", "images/shekwusch/victory_bottom.png");
-        victoryimg2.style.width="20vw";
-        victoryimg2.style.minWidth="130px";
-        victoryimg2.style.maxWidth="200px";
+        victoryimg2.style.width = "20vw";
+        victoryimg2.style.minWidth = "130px";
+        victoryimg2.style.maxWidth = "200px";
 
         function chooseAvator() {
             document.getElementById('clicksound').play();
@@ -575,11 +582,11 @@
             updateAvatarBorder();
         }
 
-        function showcard(){
+        function showcard() {
 
             messageElement.style.display = 'block';
-            setTimeout(() => {messageElement.style.display = 'none';}, 2000);
-            
+            setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
+
         }
 
         // Show overlay piece
@@ -600,8 +607,8 @@
         // Handle cell click event
         function handleCellClick(event) {
             if (!canPlay) {
-                messageElement.textContent = '先抽一張卡片！'; 
-                messageElement.style.background= "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.textContent = '先抽一張卡片！';
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
                 showcard();
                 return;
             }
@@ -619,7 +626,7 @@
             hideOverlayPiece();
 
             if (checkWinner()) {
-                messageElement.textContent="";
+                messageElement.textContent = "";
                 messageElement.appendChild(victoryimg1);
                 var victorytext = `${currentPlayer === Piece1 ? '玩家一' : '玩家二'} 獲勝 !`;
                 let victorytextcontainer = document.createElement("div");
@@ -627,7 +634,7 @@
                 let victorytextcontainer2 = document.createElement("div");
                 victorytextcontainer2.appendChild(victoryimg2);
                 messageElement.appendChild(victorytextcontainer2);
-                messageElement.style.background= "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
                 messageElement.style.display = 'block';
                 document.getElementById('victorysound').play();
 
@@ -636,51 +643,81 @@
                     messageElement.style.display = 'block';
                 }, 1000);
             } else {
-                currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
-                updateAvatarBorder();
+                if (card == 'gold' && double == 1) {
+                    updateAvatarBorder();
+                } else {
+                    currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+                    updateAvatarBorder();
+                }
+
             }
         }
 
         // Update avatar border
         function updateAvatarBorder() {
-            canPlay = false;
-            canDrawCard=true;
-            if (currentPlayer === Piece1) {
-                blackAvatar.classList.add('active');
-                whiteAvatar.classList.remove('active');
+            if (card == 'gold' && double == 1) {
+                canPlay = true;
+                canDrawCard = false;
+                double++;
             } else {
-                whiteAvatar.classList.add('active');
-                blackAvatar.classList.remove('active');
+                canPlay = false;
+                canDrawCard = true;
+                if (currentPlayer === Piece1) {
+                    blackAvatar.classList.add('active');
+                    whiteAvatar.classList.remove('active');
+                } else {
+                    whiteAvatar.classList.add('active');
+                    blackAvatar.classList.remove('active');
+                }
             }
         }
 
         function drawCard() {
-            if(canDrawCard ==true){
-            const card = Math.random() < 0.8 ? 'yellow' : 'black'; // 80%的機率
-            cardArea.textContent = `抽到的卡片: ${card}`;
+            if (canDrawCard == true) {
+                const randomNum = Math.random();
 
-            if (card === 'yellow') {
-                canPlay = true; // 玩家可以下棋
-                canDrawCard = false;
-                messageElement.textContent="";
-                cardimg.src=goodcard;
-                messageElement.appendChild(cardimg);
-                messageElement.style.background= "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
-                showcard();
-                console.log("可以下棋！");
-            } else {
-                canPlay = false; // 玩家不能下棋，輪到另一位玩家
-                canDrawCard = false;
-                messageElement.textContent="";
-                cardimg.src=badcard;
-                messageElement.appendChild(cardimg);
-                messageElement.style.background= "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
-                showcard();
-                console.log("無法下棋，輪到另一位玩家！");
-                currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
-                updateAvatarBorder();
+                if (randomNum < 0.05) {
+                    card = 'gold'; // 5% chance
+                } else if (randomNum < 0.25) { // (0.05 + 0.20 = 0.25)
+                    card = 'black'; // 20% chance
+                } else {
+                    card = 'yellow'; // 75% chance
+                }
+                //const card = Math.random() < 0.8 ? 'yellow' : 'black'; // 80%的機率
+                cardArea.textContent = `抽到的卡片: ${card}`;
+
+                if (card === 'yellow') {
+                    canPlay = true;
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = goodcard;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                    showcard();
+                    console.log("可以下棋！");
+                } else if (card === 'gold') {
+                    double = 1;
+                    canPlay = true;
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = goodcardx2;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                    showcard();
+                    console.log("可以下棋！");
+                } else {
+                    canPlay = false; // 玩家不能下棋，輪到另一位玩家
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = badcard;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
+                    showcard();
+                    console.log("無法下棋，輪到另一位玩家！");
+                    currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+                    updateAvatarBorder();
+                }
             }
-        }
         }
 
         // Check for a winner
@@ -728,7 +765,7 @@
 
         restartButton.addEventListener('click', () => {
             initBoard(boardSize);
-            messageElement.textContent="";
+            messageElement.textContent = "";
             document.getElementById('clicksound').play();
         });
 
