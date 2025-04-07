@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-hk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Iansui&family=Righteous&display=swap" rel="stylesheet">
+    <title>五子棋</title>
+    <style>
+        .righteous-regular {
+            font-family: "Righteous", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+
+        .iansui-regular {
+            font-family: "Iansui", cursive;
+            font-weight: bold;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body,
+        html {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+            background-color: #ccb4a4;
+            font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
+            position: relative;
+        }
+
+        .container {
+            display: block;
+            border: 8px solid #767676;
+            border-radius: 8px;
+            position: relative;
+            margin: 10px 5vw;
+            text-align: center;
+            max-height: fit-content;
+            background-size: cover;
+            background-position: center;
+            background-color: #A9E3E4;
+            width: 95%;
+            max-width: 1280px;
+        }
+
+        .coverbg {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: cover;
+            display: block;
+            background-color: #767676;
+        }
+
+        .blackoverlay {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            margin: 10px;
+            padding: 12px 22px;
+            font-size: calc(16px + 2vw);
+            border-radius: 10px;
+            border: 3px solid black;
+            background-color: #8DFFA9;
+            cursor: pointer;
+            color: black;
+            font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
+        }
+
+        button:hover {
+            background-color: #006FF8;
+            color: white;
+        }
+
+        .mainbutton {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 63%;
+            left: 44%;
+            transform: translate(-50%, -50%);
+        }
+
+        .smallbutton {
+            position: relative;
+            padding: 5px 5px;
+            font-size: calc(14px + 0.4vw);
+            border-radius: 5px;
+            border: 1px solid black;
+            background-color: lightgray;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .titleimg {
+            position: absolute;
+            top: 64%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #board {
+            display: grid;
+            gap: 1px;
+            background-color: #a57441;
+            border: 2px solid #846b4f;
+        }
+
+        .flex-container {
+            display: inline-flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            background-position: bottom 0px right;
+            background-size: 35%;
+            background-repeat: no-repeat;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background-color: #fff5db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .piece {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .black {
+            background-color: black;
+        }
+
+        .white {
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        .blue {
+            background-color: #006FF8;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .pink {
+            background-color: rgb(222, 108, 127);
+        }
+
+        .orange {
+            background-color: #FF8E7F;
+        }
+
+        .cell:hover {
+            background-color: #846b4f;
+        }
+
+        #message {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 40%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            font-size: calc(26px + 1.5vw);
+            text-wrap: nowrap;
+            font-weight: bold;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81));
+            background-size: cover;
+            background-position: bottom;
+            background-attachment: fixed;
+            padding: 20px;
+            border-radius: 25px;
+            border: 5px solid #fffefd;
+        }
+
+        .messagebox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: auto;
+            padding-bottom: 15%;
+        }
+
+        #sizeInput {
+            margin-bottom: 10px;
+        }
+
+        #controls {
+            position: relative;
+            top: 10px;
+            right: 0px;
+            margin: 10px;
+            text-align: right;
+        }
+
+        .avatar {
+            width: 80px;
+            height: auto;
+            margin: 10px;
+            border: 5px solid transparent !important;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
+
+        .active {
+            border: 5px solid orange !important;
+        }
+
+        .avataroption {
+            width: 10vw;
+            min-width: 110px;
+            height: auto;
+            margin: 5px;
+            border: 5px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pieceoption {
+            width: 50px;
+            height: 50px;
+            ;
+            margin: 5px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        #avatormessage {
+            width: fit-content;
+            font-weight: bold;
+            font-size: larger;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81));
+            padding: 10px;
+            margin: auto;
+            border-radius: 30px;
+            border: 5px solid #fffefd;
+            display: block;
+        }
+
+        .overlay-piece {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+            display: none;
+        }
+
+        #loadgame:hover {
+            filter: drop-shadow(0 0 0.75rem rgb(255, 255, 255));
+        }
+
+        @media screen and (max-width: 600px) {
+
+            body,
+            html {
+                margin: 0;
+            }
+
+            .messagebox {
+                flex-direction: row;
+                padding-bottom: 0px;
+            }
+
+            .container {
+                border: 5px solid #767676;
+                border-radius: 0px;
+                position: relative;
+                margin: auto;
+            }
+
+            .flex-container {
+                background-image: none;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- //Note: Loading Page -->
+        <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 25%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
+                src="images/lpc2/playbutton.png" alt="開始遊戲" onclick="loadgame()">
+            <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div>
+        </div>
+
+        <!-- //Note: Game Menu -->
+
+        <div id="gamecover">
+            <img id="backgroundimg" class="coverbg" src="images/lpc2/background1.png">
+            <div id="gamemenu" style="display: none;">
+                <div class="titleimg" style="width: 60%; top:55% ">
+
+                    <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
+                        <img width="95%" src="images/lpc2/logo.png" alt="五子棋">
+                    </div>
+
+                </div>
+                <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
+                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"><img
+                            style="width: 10vw; min-width: 50px; max-width: 100px;" src="images/lpc2/startgame.png" alt="開始遊戲"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- //Note: Choose Avator-->
+        <div id="chooseavator" style="display:none;">
+            <div style="font-size: calc(16px + 1.2vw)">
+                <div style="margin: 4% 12%; width: max-content; ">
+                    <div>選擇你的角色和棋子顏色</div><br>
+                    <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
+                    <br>
+                    <div style="display: inline-block;"><img id="Avator1" class="avataroption" src="images/lpc2/C1.png" alt="C1"></div>
+                    <div style="display: inline-block; "><img id="Avator2" class="avataroption" src="images/lpc2/C2.png" alt="C2"></div>
+                    <div style="display: inline-block; "><img id="Avator3" class="avataroption" src="images/lpc2/C3.png" alt="C3"></div>
+                    
+                    <br>
+                    <div id="black" class="pieceoption black"> </div>
+                    <div id="white" class="pieceoption white"> </div>
+                    <div id="blue" class="pieceoption blue"> </div>
+                    <div id="green" class="pieceoption green"> </div>
+                    <div id="pink" class="pieceoption pink"> </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- //Note: Main Game -->
+        <div id="maingame" style="display: none; background-color: #A9E3E4; ">
+            <div id="controls" style="display: none;">
+                <input type="number" id="sizeInput" value="15" min="5" max="30" />
+                <div id="createBoard" class="smallbutton">創建棋盤</div>
+            </div>
+            <div class="flex-container" style="background-image: url('/images/lpc2/background1.png');">
+                <div id="board"></div>
+                <div class="messagebox">
+
+                    <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
+                    <div style="display: none;" id="card-area"></div>
+                    <button id="draw-card" onclick="drawCard()">抽卡</button>
+                    <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
+
+                </div>
+            </div>
+            <div id="message"></div>
+            <button class="mainbutton orange" id="restart"><img style="width: 12vw; min-width: 100px; max-width: 150px;"
+                    src="images/lpc2/restartgame.png" alt="再來一局"></button>
+        </div>
+        <div class="overlay-piece" id="overlayPiece"></div>
+    </div>
+
+    <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
+    <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
+    <script>
+
+        function loadgame() {
+            document.getElementById("bgmusic").play();
+            document.getElementById("loadgamemask").style.display = "none";
+            document.getElementById("gamemenu").style.display = "block";
+            const rndInt = Math.floor(Math.random() * 3) + 1
+            var newbg = "images/lpc2/background"+rndInt+".png";
+            console.log(newbg);
+            document.getElementById('backgroundimg').src=newbg;
+        }
+
+        let boardSize = 15;
+        let board;
+        let currentPlayer;
+        let canPlay = false;
+        let canDrawCard = true;
+        let Avator1;
+        let Piece1;
+        let Avator2;
+        let Piece2;
+        let card;
+        let double = 1;
+
+        const boardElement = document.getElementById('board');
+        const messageElement = document.getElementById('message');
+        const restartButton = document.getElementById('restart');
+        const sizeInput = document.getElementById('sizeInput');
+        const createBoardButton = document.getElementById('createBoard');
+        const blackAvatar = document.getElementById('blackAvatar');
+        const whiteAvatar = document.getElementById('whiteAvatar');
+        const overlayPiece = document.getElementById('overlayPiece');
+        const cardArea = document.getElementById('card-area');
+        const drawCardButton = document.getElementById('draw-card');
+        const AvatorOptions = document.querySelectorAll('.avataroption');
+        const PieceOptions = document.querySelectorAll('.pieceoption');
+        var avatormessage = document.getElementById("avatormessage");
+
+        var cardimg = document.createElement("img");
+        cardimg.setAttribute("src", "images/lpc2/goodcard.png");
+        cardimg.style.width = "16vw";
+        cardimg.style.minWidth = "110px";
+        var goodcard = "images/lpc2/goodcard.png";
+        var badcard = "images/lpc2/badcard.png";
+        var goodcardx2 = "images/lpc2/goodcardx2.png";
+
+        var victoryimg1 = document.createElement("img");
+        victoryimg1.setAttribute("src", "images/lpc2/victory_top.png");
+        victoryimg1.style.width = "20vw";
+        victoryimg1.style.minWidth = "130px";
+        victoryimg1.style.maxWidth = "200px";
+
+        var victoryimg2 = document.createElement("img");
+        victoryimg2.setAttribute("src", "images/lpc2/victory_bottom.png");
+        victoryimg2.style.width = "20vw";
+        victoryimg2.style.minWidth = "130px";
+        victoryimg2.style.maxWidth = "200px";
+
+        function chooseAvator() {
+            document.getElementById('clicksound').play();
+            //window.open("gomoku_basic_duel.html","_self").focus();
+            document.getElementById("gamemenu").style.display = "none";
+            document.getElementById("gamecover").style.display = "none";
+            document.getElementById("chooseavator").style.display = "block";
+            avatormessage.textContent = "玩家一";
+            console.log(Avator1 + " " + Piece1);
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.addEventListener("click", Player1Avator);
+            });
+            PieceOptions.forEach((PieceOption) => {
+                PieceOption.addEventListener("click", Player1Piece);
+            });
+        }
+
+        function Player1Avator() {
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.classList.remove("active");
+            });
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Avator1 = this.src;
+            blackAvatar.src = Avator1;
+            console.log(Avator1);
+            if (Avator1 !== undefined && Piece1 !== undefined) {
+                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+                setTimeout(() => { SetPlayer2(); }, 1000);
+            }
+        }
+
+        function Player1Piece() {
+            PieceOptions.forEach((PieceOption) => {
+                PieceOption.classList.remove("active");
+            });
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Piece1 = this.id;
+            console.log(Piece1);
+            if (Avator1 !== undefined && Piece1 !== undefined) {
+                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+                setTimeout(() => { SetPlayer2(); }, 1000);
+            }
+        }
+
+        function SetPlayer2() {
+            currentPlayer = Piece1;
+            avatormessage.textContent = "玩家二";
+            avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow');
+            console.log("Avator1 Done");
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.classList.remove("active");
+                AvatorOption.removeEventListener("click", Player1Avator);
+                AvatorOption.addEventListener("click", Player2Avator);
+            });
+            PieceOptions.forEach((PieceOption) => {
+                PieceOption.classList.remove("active");
+                PieceOption.removeEventListener("click", Player1Piece);
+                PieceOption.addEventListener("click", Player2Piece);
+            });
+
+
+        }
+
+        function Player2Avator() {
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.classList.remove("active");
+            });
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Avator2 = this.src;
+            whiteAvatar.src = Avator2;
+            console.log(Avator2);
+            if (Avator2 !== undefined && Piece2 !== undefined) {
+                avatormessage.textContent = "遊戲開始！";
+                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+                setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
+                setTimeout(() => { startGame(); }, 1000);
+            }
+        }
+
+        function Player2Piece() {
+            PieceOptions.forEach((PieceOption) => {
+                PieceOption.classList.remove("active");
+            });
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Piece2 = this.id;
+            console.log(Piece2);
+            if (Avator2 !== undefined && Piece2 !== undefined) {
+                avatormessage.textContent = "遊戲開始！";
+                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+                setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
+                setTimeout(() => { startGame(); }, 1000);
+            }
+        }
+
+        function startGame() {
+            document.getElementById("chooseavator").style.display = "none";
+            document.getElementById("maingame").style.display = "block";
+            document.getElementsByClassName("container")[0].style.maxHeight = "100vh";
+            initBoard(boardSize);
+        }
+
+        // Initialize the board
+        function initBoard(size) {
+            var screensize = window.innerWidth;
+            if (screensize <= 600) {
+                boardSize = 8;
+            } else {
+                boardSize = size;
+            }
+
+            board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
+            boardElement.innerHTML = ''; // Clear the board
+            boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
+            boardElement.style.gridTemplateRows = `repeat(${boardSize}, 40px)`;
+
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', handleCellClick);
+                    cell.addEventListener('mouseenter', () => showOverlayPiece(cell));
+                    cell.addEventListener('mouseleave', hideOverlayPiece);
+                    boardElement.appendChild(cell);
+                }
+            }
+            messageElement.style.display = 'none';
+            restartButton.style.display = 'none';
+            messageElement.textContent = ''; // Clear message
+            updateAvatarBorder();
+        }
+
+        function showcard() {
+
+            messageElement.style.display = 'block';
+            setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
+
+        }
+
+        // Show overlay piece
+        function showOverlayPiece(cell) {
+            const rect = cell.getBoundingClientRect();
+            const boardRect = boardElement.getBoundingClientRect();
+            overlayPiece.style.left = `${rect.left - boardRect.left + boardElement.scrollLeft}px`;
+            overlayPiece.style.top = `${rect.top - boardRect.top + boardElement.scrollTop}px`;
+            overlayPiece.style.display = 'block';
+            overlayPiece.className = `overlay-piece ${currentPlayer}`;
+        }
+
+        // Hide overlay piece
+        function hideOverlayPiece() {
+            overlayPiece.style.display = 'none';
+        }
+
+        // Handle cell click event
+        function handleCellClick(event) {
+            if (!canPlay) {
+                messageElement.textContent = '先抽一張卡片！';
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                showcard();
+                return;
+            }
+
+            const row = event.target.dataset.row;
+            const col = event.target.dataset.col;
+            document.getElementById('clicksound').play();
+
+            if (board[row][col] || checkWinner()) return;
+
+            board[row][col] = currentPlayer;
+            const piece = document.createElement('div');
+            piece.className = `piece ${currentPlayer}`;
+            event.target.appendChild(piece);
+            hideOverlayPiece();
+
+            if (checkWinner()) {
+                messageElement.textContent = "";
+                messageElement.appendChild(victoryimg1);
+                var victorytext = `${currentPlayer === Piece1 ? '玩家一' : '玩家二'} 獲勝 !`;
+                let victorytextcontainer = document.createElement("div");
+                victoryimg1.after(victorytextcontainer, victorytext);
+                let victorytextcontainer2 = document.createElement("div");
+                victorytextcontainer2.appendChild(victoryimg2);
+                messageElement.appendChild(victorytextcontainer2);
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.style.display = 'block';
+                document.getElementById('victorysound').play();
+
+                setTimeout(() => {
+                    restartButton.style.display = 'block';
+                    messageElement.style.display = 'block';
+                }, 1000);
+            } else {
+                if (card == 'gold' && double == 1) {
+                    updateAvatarBorder();
+                } else {
+                    currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+                    updateAvatarBorder();
+                }
+
+            }
+        }
+
+        // Update avatar border
+        function updateAvatarBorder() {
+            if (card == 'gold' && double == 1) {
+                canPlay = true;
+                canDrawCard = false;
+                double++;
+            } else {
+                canPlay = false;
+                canDrawCard = true;
+                if (currentPlayer === Piece1) {
+                    blackAvatar.classList.add('active');
+                    whiteAvatar.classList.remove('active');
+                } else {
+                    whiteAvatar.classList.add('active');
+                    blackAvatar.classList.remove('active');
+                }
+            }
+        }
+
+        function drawCard() {
+            if (canDrawCard == true) {
+                const randomNum = Math.random();
+
+                if (randomNum < 0.05) {
+                    card = 'gold'; // 5% chance
+                } else if (randomNum < 0.25) { // (0.05 + 0.20 = 0.25)
+                    card = 'black'; // 20% chance
+                } else {
+                    card = 'yellow'; // 75% chance
+                }
+                //const card = Math.random() < 0.8 ? 'yellow' : 'black'; // 80%的機率
+                cardArea.textContent = `抽到的卡片: ${card}`;
+
+                if (card === 'yellow') {
+                    canPlay = true;
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = goodcard;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                    showcard();
+                    console.log("可以下棋！");
+                } else if (card === 'gold') {
+                    double = 1;
+                    canPlay = true;
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = goodcardx2;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                    showcard();
+                    console.log("可以下棋！");
+                } else {
+                    canPlay = false; // 玩家不能下棋，輪到另一位玩家
+                    canDrawCard = false;
+                    messageElement.textContent = "";
+                    cardimg.src = badcard;
+                    messageElement.appendChild(cardimg);
+                    messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
+                    showcard();
+                    console.log("無法下棋，輪到另一位玩家！");
+                    currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+                    updateAvatarBorder();
+                }
+            }
+        }
+
+        // Check for a winner
+        function checkWinner() {
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    if (board[i][j] && (checkDirection(i, j, 1, 0) ||
+                        checkDirection(i, j, 0, 1) ||
+                        checkDirection(i, j, 1, 1) ||
+                        checkDirection(i, j, 1, -1))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Check for consecutive pieces in a given direction
+        function checkDirection(row, col, rowDir, colDir) {
+            let count = 0;
+            const player = board[row][col];
+
+            for (let k = 0; k < 5; k++) {
+                const newRow = row + k * rowDir;
+                const newCol = col + k * colDir;
+
+                if (newRow >= 0 && newRow < boardSize && newCol >= 0 && newCol < boardSize && board[newRow][newCol] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count === 5;
+        }
+
+        // Create board on button click
+        createBoardButton.addEventListener('click', () => {
+            const size = parseInt(sizeInput.value, 10);
+            if (size >= 5 && size <= 30) {
+                initBoard(size);
+            } else {
+                console.log('請輸入有效的棋盤大小（5到30）');
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            initBoard(boardSize);
+            messageElement.textContent = "";
+            document.getElementById('clicksound').play();
+        });
+
+    </script>
+</body>
+
+</html>
