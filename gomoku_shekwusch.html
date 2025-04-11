@@ -31,7 +31,7 @@
             align-items: center;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+
             text-align: center;
             background-color: #ccb4a4;
             font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
@@ -342,7 +342,7 @@
         <!-- //Note: Choose Avator-->
         <div id="chooseavator" style="display:none;">
             <div style="font-size: calc(16px + 1.2vw)">
-                <div style="margin: 4% 12%; ">
+                <div style="margin: 4% 4%; ">
                     <div>選擇你的角色和棋子顏色</div><br>
                     <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
                     <br>
@@ -358,6 +358,7 @@
                     <div id="blue" class="pieceoption blue"> </div>
                     <div id="green" class="pieceoption green"> </div>
                     <div id="pink" class="pieceoption pink"> </div>
+                    <div><button id="confirmAvator" class="animate__animated animate__pulse animate__slow animate__infinite">確定</button></div>
                 </div>
             </div>
         </div>
@@ -386,16 +387,20 @@
         <div class="overlay-piece" id="overlayPiece"></div>
     </div>
 
-    <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
-    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
-    <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
+    <audio id="bitesound" src="images/Bite.mp3" preload="auto"></audio>
+    <audio id="heysound" src="images/Hey.mp3" preload="auto"></audio>
+    <audio id="clicksound" src="images/Pop.mp3" preload="auto"></audio>
+    <audio id="squishsound" src="images/SquishPop.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="images/VideoGame1.mp3" preload="auto" loop></audio>
+    <audio id="victorysound" src="images/Win.mp3" preload="auto"></audio>
+    <audio id="losesound" src="images/Lose.mp3" preload="auto"></audio>
     <script>
 
         function loadgame() {
-            document.getElementById("bgmusic").play();
+            document.getElementById("bitesound").play();
+            setTimeout(() => { document.getElementById("bgmusic").play(); }, 500);
             document.getElementById("loadgamemask").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
-
         }
 
         let boardSize = 15;
@@ -422,6 +427,7 @@
         const drawCardButton = document.getElementById('draw-card');
         const AvatorOptions = document.querySelectorAll('.avataroption');
         const PieceOptions = document.querySelectorAll('.pieceoption');
+        var confirmAvator = document.getElementById("confirmAvator");
         var avatormessage = document.getElementById("avatormessage");
 
         var cardimg = document.createElement("img");
@@ -445,7 +451,7 @@
         victoryimg2.style.maxWidth = "200px";
 
         function chooseAvator() {
-            document.getElementById('clicksound').play();
+            document.getElementById('heysound').play();
             //window.open("gomoku_basic_duel.html","_self").focus();
             document.getElementById("gamemenu").style.display = "none";
             document.getElementById("gamecover").style.display = "none";
@@ -458,6 +464,7 @@
             PieceOptions.forEach((PieceOption) => {
                 PieceOption.addEventListener("click", Player1Piece);
             });
+            confirmAvator.addEventListener("click", CheckAvator1);
         }
 
         function Player1Avator() {
@@ -465,14 +472,10 @@
                 AvatorOption.classList.remove("active");
             });
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('squishsound').play();
             Avator1 = this.src;
             blackAvatar.src = Avator1;
             console.log(Avator1);
-            if (Avator1 !== undefined && Piece1 !== undefined) {
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { SetPlayer2(); }, 1000);
-            }
         }
 
         function Player1Piece() {
@@ -480,12 +483,17 @@
                 PieceOption.classList.remove("active");
             });
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('squishsound').play();
             Piece1 = this.id;
             console.log(Piece1);
+        }
+
+        function CheckAvator1() {
+            document.getElementById('squishsound').play();
             if (Avator1 !== undefined && Piece1 !== undefined) {
                 avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { SetPlayer2(); }, 1000);
+                confirmAvator.removeEventListener("click", CheckAvator1);
+                setTimeout(() => { SetPlayer2(); confirmAvator.addEventListener("click", CheckAvator2); }, 1000);
             }
         }
 
@@ -513,16 +521,10 @@
                 AvatorOption.classList.remove("active");
             });
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('squishsound').play();
             Avator2 = this.src;
             whiteAvatar.src = Avator2;
             console.log(Avator2);
-            if (Avator2 !== undefined && Piece2 !== undefined) {
-                avatormessage.textContent = "遊戲開始！";
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
-                setTimeout(() => { startGame(); }, 1000);
-            }
         }
 
         function Player2Piece() {
@@ -530,16 +532,21 @@
                 PieceOption.classList.remove("active");
             });
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('squishsound').play();
             Piece2 = this.id;
             console.log(Piece2);
+        }
+
+        function CheckAvator2() {
+            document.getElementById('squishsound').play();
             if (Avator2 !== undefined && Piece2 !== undefined) {
                 avatormessage.textContent = "遊戲開始！";
                 avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
                 setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
-                setTimeout(() => { startGame(); }, 1000);
+                setTimeout(() => { confirmAvator.removeEventListener("click", CheckAvator2); startGame(); }, 1000);
             }
         }
+
 
         function startGame() {
             document.getElementById("chooseavator").style.display = "none";
@@ -581,10 +588,8 @@
         }
 
         function showcard() {
-
             messageElement.style.display = 'block';
             setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
-
         }
 
         // Show overlay piece
@@ -672,6 +677,7 @@
 
         function drawCard() {
             if (canDrawCard == true) {
+                document.getElementById('squishsound').play();
                 const randomNum = Math.random();
 
                 if (randomNum < 0.05) {
@@ -711,6 +717,7 @@
                     messageElement.appendChild(cardimg);
                     messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
                     showcard();
+                    document.getElementById('losesound').play();
                     console.log("無法下棋，輪到另一位玩家！");
                     currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
                     updateAvatarBorder();
@@ -762,6 +769,7 @@
         });
 
         restartButton.addEventListener('click', () => {
+            document.getElementById('squishsound').play();
             initBoard(boardSize);
             messageElement.textContent = "";
             document.getElementById('clicksound').play();
