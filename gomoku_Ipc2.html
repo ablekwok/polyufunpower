@@ -25,17 +25,9 @@
 
         body,
         html {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            text-align: center;
             background-color: #ccb4a4;
             font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
-            position: relative;
+            text-align: center;
         }
 
         .container {
@@ -43,23 +35,17 @@
             border: 8px solid #767676;
             border-radius: 8px;
             position: relative;
-            margin: 10px 5vw;
             text-align: center;
-            max-height: fit-content;
-            background-size: cover;
-            background-position: center;
-            background-color: #A9E3E4;
+            margin: auto;
             width: 95%;
             max-width: 1280px;
+            height: 80vh;
+            background-image: url("../images/lpc2/background1.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
-        .coverbg {
-            width: 100%;
-            max-height: 80vh;
-            object-fit: cover;
-            display: block;
-            background-color: #767676;
-        }
 
         .blackoverlay {
             display: block;
@@ -319,8 +305,9 @@
 
         <!-- //Note: Game Menu -->
 
+
         <div id="gamecover">
-            <img id="backgroundimg" class="coverbg" src="images/lpc2/background1.png">
+           
             <div id="gamemenu" style="display: none;">
                 <div class="titleimg" style="width: 60%; top:55% ">
 
@@ -335,6 +322,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- //Note: Choose Avator-->
         <div id="chooseavator" style="display:none;">
@@ -379,6 +367,8 @@
                     src="images/lpc2/restartgame.png" alt="再來一局"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
+
+   
     </div>
 
     <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
@@ -386,16 +376,7 @@
     <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
 
-        function loadgame() {
-            document.getElementById("bgmusic").play();
-            document.getElementById("loadgamemask").style.display = "none";
-            document.getElementById("gamemenu").style.display = "block";
-            const rndInt = Math.floor(Math.random() * 3) + 1
-            var newbg = "images/lpc2/background"+rndInt+".png";
-            console.log(newbg);
-            document.getElementById('backgroundimg').src=newbg;
-        }
-
+        let scene; 
         let boardSize = 15;
         let board;
         let currentPlayer;
@@ -441,6 +422,16 @@
         victoryimg2.style.width = "20vw";
         victoryimg2.style.minWidth = "130px";
         victoryimg2.style.maxWidth = "200px";
+
+        function loadgame() {
+            document.getElementById("bgmusic").play();
+            document.getElementById("loadgamemask").style.display = "none";
+            document.getElementById("gamemenu").style.display = "block";
+            const rndInt = Math.floor(Math.random() * 3) + 1
+            var newbg = "images/lpc2/background"+rndInt+".png";
+            console.log(newbg);
+            document.getElementById('backgroundimg').src=newbg;
+        }
 
         function chooseAvator() {
             document.getElementById('clicksound').play();
