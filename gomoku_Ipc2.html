@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Iansui&family=Righteous&display=swap" rel="stylesheet">
-    <title>五子棋</title>
+    <title>電影五子棋</title>
     <style>
         .righteous-regular {
             font-family: "Righteous", sans-serif;
@@ -39,8 +39,9 @@
             margin: auto;
             width: 95%;
             max-width: 1280px;
-            height: 80vh;
+            aspect-ratio: 4 / 3;
             min-height: fit-content;
+            max-height: 100vh;
             background-color: lightgray;
             background-position: center;
             background-repeat: no-repeat;
@@ -115,9 +116,9 @@
 
         #board {
             display: grid;
-            gap: 1px;
-            background-color: #dbd8d5;
-            border: 2px solid #4f5184;
+            gap: 2px;
+            background-color: #2c6bd1;
+            border: 2px solid #2c6bd1;
         }
 
         .flex-container {
@@ -135,7 +136,7 @@
         .cell {
             width: 40px;
             height: 40px;
-            background-color: #fff5db;
+            background-color: #fbf7ed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -235,7 +236,8 @@
 
         .avataroption {
             width: 14vw;
-            min-width: 110px;
+            min-width: 120px;
+            max-width: 300px;
             height: auto;
             margin: 1vh 5vw;
             border: 8px solid white;
@@ -296,7 +298,9 @@
                 border-radius: 0px;
                 position: relative;
                 width: 100%;
-                height: fit-content;
+                aspect-ratio: auto;
+                height:50vh;
+                min-height: fit-content;
             }
 
             .flex-container {
@@ -321,8 +325,8 @@
             <div style="font-size: calc(16px + 1.2vw);padding-top: 3vh; padding-bottom: 3vh;">選擇一個主題</div>
             <div style="display: flex;">
                 <div><img class="themebox" src="images/lpc2/S1Theme.png" alt="哪吒" onclick="Theme1()"></div>
-                <div><img class="themebox" src="images/lpc2/S2Theme.png" alt="小新"></div>
-                <div><img class="themebox" src="images/lpc2/S3Theme.png" alt="隊長"></div>
+                <div><img class="themebox" src="images/lpc2/S2Theme.png" alt="小新" onclick="Theme2()"></div>
+                <div><img class="themebox" src="images/lpc2/S3Theme.png" alt="隊長" onclick="Theme3()"></div>
             </div>
         </div>
 
@@ -384,8 +388,10 @@
                 </div>
             </div>
             <div id="message"></div>
-            <button class="mainbutton orange" id="restart"><img style="width: 12vw; min-width: 100px; max-width: 150px;"
-                    src="images/lpc2/restartgame.png" alt="再來一局"></button>
+            <button class="mainbutton" id="restart" style="left:36%; padding: 0; margin: 0; background-color: transparent; border: 0px;"><img style="width: 16vw; min-width: 100px; max-width: 200px; padding: 0;"
+                src="images/lpc2/Restartv1.png" alt="再來一局"></button>
+        <button class="mainbutton" id="quit" style="left:56%; padding: 0; margin: 0; background-color: transparent; border: 0px;"><img style="width: 16vw; min-width: 100px; max-width: 200px; padding: 0;" src="images/lpc2/Quitv1.png"
+                alt="退出"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
 
@@ -411,10 +417,12 @@
         let double = 1;
         let theme = 1;
         let backgroundnum = 1;
+        let showcardtimer;
 
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
         const restartButton = document.getElementById('restart');
+        const quitButton = document.getElementById('quit');
         const sizeInput = document.getElementById('sizeInput');
         const createBoardButton = document.getElementById('createBoard');
         const blackAvatar = document.getElementById('blackAvatar');
@@ -436,17 +444,41 @@
         var badcard = "images/lpc2/badcard.png";
         var goodcardx2 = "images/lpc2/goodcardx2.png";
 
-        var victoryimg1 = document.createElement("img");
-        victoryimg1.setAttribute("src", "images/lpc2/victory_top.png");
-        victoryimg1.style.width = "20vw";
-        victoryimg1.style.minWidth = "130px";
-        victoryimg1.style.maxWidth = "200px";
+        var S1C1img = document.createElement("img");
+        S1C1img.setAttribute("src", "images/lpc2/S2C1Win.png");
+        S1C1img.style.width = "30vw";
+        S1C1img.style.minWidth = "180px";
+        S1C1img.style.maxWidth = "300px";
 
-        var victoryimg2 = document.createElement("img");
-        victoryimg2.setAttribute("src", "images/lpc2/victory_bottom.png");
-        victoryimg2.style.width = "20vw";
-        victoryimg2.style.minWidth = "130px";
-        victoryimg2.style.maxWidth = "200px";
+        var S1C2img = document.createElement("img");
+        S1C2img.setAttribute("src", "images/lpc2/S2C2Win.png");
+        S1C2img.style.width = "30vw";
+        S1C2img.style.minWidth = "180px";
+        S1C2img.style.maxWidth = "300px";
+
+        var S2C1img = document.createElement("img");
+        S2C1img.setAttribute("src", "images/lpc2/S2C1Win.png");
+        S2C1img.style.width = "30vw";
+        S2C1img.style.minWidth = "180px";
+        S2C1img.style.maxWidth = "300px";
+
+        var S2C2img = document.createElement("img");
+        S2C2img.setAttribute("src", "images/lpc2/S2C2Win.png");
+        S2C2img.style.width = "30vw";
+        S2C2img.style.minWidth = "180px";
+        S2C2img.style.maxWidth = "300px";
+
+        var S3C1img = document.createElement("img");
+        S3C1img.setAttribute("src", "images/lpc2/S3C1Win.png");
+        S3C1img.style.width = "30vw";
+        S3C1img.style.minWidth = "180px";
+        S3C1img.style.maxWidth = "300px";
+
+        var S3C2img = document.createElement("img");
+        S3C2img.setAttribute("src", "images/lpc2/S3C2Win.png");
+        S3C2img.style.width = "30vw";
+        S3C2img.style.minWidth = "180px";
+        S3C2img.style.maxWidth = "300px";
 
         function loadgame() {
             document.getElementById("bgmusic").play();
@@ -466,6 +498,36 @@
             document.getElementById("AvatorName1").innerHTML = "靈硃";
             document.getElementById("AvatorName2").innerHTML = "魔丸";
             theme = 1;
+            document.getElementById("ChooseTheme").style.display = "none";
+            document.getElementById("gamemenu").style.display = "block";
+        }
+
+        function Theme2() {
+            document.getElementById('clicksound').play();
+            TitleText.style.top = "30%";
+            //backgroundnum = Math.floor(Math.random() * 2) + 1;
+            //BGImg.style.backgroundImage = "url('images/lpc2/S1BG"+backgroundnum+".jpg')";
+            BGImg.style.backgroundImage = "url('images/lpc2/S2BG2.jpg')";
+            AvatorOptions[0].src = "images/lpc2/S2C1.png";
+            AvatorOptions[1].src = "images/lpc2/S2C2.png";
+            document.getElementById("AvatorName1").innerHTML = "小新";
+            document.getElementById("AvatorName2").innerHTML = "風間";
+            theme = 2;
+            document.getElementById("ChooseTheme").style.display = "none";
+            document.getElementById("gamemenu").style.display = "block";
+        }
+
+        function Theme3() {
+            document.getElementById('clicksound').play();
+            TitleText.style.top = "30%";
+            //backgroundnum = Math.floor(Math.random() * 2) + 1;
+            //BGImg.style.backgroundImage = "url('images/lpc2/S1BG"+backgroundnum+".jpg')";
+            BGImg.style.backgroundImage = "url('images/lpc2/S3Cover.jpg')";
+            AvatorOptions[0].src = "images/lpc2/S3C1.png";
+            AvatorOptions[1].src = "images/lpc2/S3C2.png";
+            document.getElementById("AvatorName1").innerHTML = "APK Captain";
+            document.getElementById("AvatorName2").innerHTML = "Ninte Ninja";
+            theme = 3;
             document.getElementById("ChooseTheme").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
         }
@@ -490,7 +552,6 @@
             document.getElementById('clicksound').play();
             BGImg.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
             BGImg.style.backgroundBlendMode = "lighten";
-
             if (theme == 1) {
                 BGImg.style.backgroundImage = "url('images/lpc2/S1BG2.jpg')";
             }
@@ -498,7 +559,7 @@
                 BGImg.style.backgroundImage = "url('images/lpc2/S2BG2.jpg')";
             }
             if (theme == 3) {
-                BGImg.style.backgroundImage = "url('images/lpc2/S3Cover.jpg')";
+                BGImg.style.backgroundImage = "";
             }
             //window.open("gomoku_basic_duel.html","_self").focus();
             document.getElementById("chooseavator").style.display = "block";
@@ -515,17 +576,38 @@
             blackAvatar.src = Avator1;
             console.log(Avator1 + " | Name:" + this.name);
             avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.removeEventListener("click", Player1Avator);
+            });
             setTimeout(() => {
                 this.style.display = "none";
-                if (theme == 1) {
-                    if (this.name == "C1") {
-                        Piece1 = "blue";
-                        document.getElementById("AvatorName1").style.display = "none";
-                    } else {
-                        Piece1 = "orange";
-                        document.getElementById("AvatorName2").style.display = "none";
-                    }
+            if (theme == 1) {
+                if (this.name == "C1") {
+                    Piece1 = "blue";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece1 = "orange";
+                    document.getElementById("AvatorName2").style.display = "none";
                 }
+            }
+            if (theme == 2) {
+                if (this.name == "C1") {
+                    Piece1 = "yellow";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece1 = "blue";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
+            }
+            if (theme == 3) {
+                if (this.name == "C1") {
+                    Piece1 = "black";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece1 = "orange";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
+            }
                 SetPlayer2();
             }, 1500
             );
@@ -539,7 +621,6 @@
             console.log("Avator1 Done");
             AvatorOptions.forEach((AvatorOption) => {
                 AvatorOption.classList.remove("active");
-                AvatorOption.removeEventListener("click", Player1Avator);
                 AvatorOption.addEventListener("click", Player2Avator);
             });
         }
@@ -561,6 +642,25 @@
                     document.getElementById("AvatorName2").style.display = "none";
                 }
             }
+            if (theme == 2) {
+                if (this.name == "C1") {
+                    Piece2 = "yellow";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece2 = "blue";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
+            }
+            if (theme == 3) {
+                if (this.name == "C1") {
+                    Piece2 = "black";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece2 = "orange";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
+                BGImg.style.backgroundImage = "url('images/lpc2/S3Cover.jpg')";
+            }
             avatormessage.textContent = "遊戲開始！";
             setTimeout(() => {
                 avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow');
@@ -580,14 +680,14 @@
             var screensize = window.innerWidth;
             if (screensize <= 600) {
                 boardSize = 8;
-            } else if(screensize <= 1064 && screensize > 600) {
+            } else if (screensize <= 1064 && screensize > 600) {
                 boardSize = 15;
-            }else{
+            } else {
                 boardSize = size;
             }
 
             board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-            boardElement.innerHTML = ''; 
+            boardElement.innerHTML = '';
             boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
             boardElement.style.gridTemplateRows = `repeat(${boardSize}, 40px)`;
 
@@ -605,14 +705,15 @@
             }
             messageElement.style.display = 'none';
             restartButton.style.display = 'none';
+            quitButton.style.display = 'none';
             messageElement.textContent = ''; // Clear message
             updateAvatarBorder();
         }
 
         function showcard() {
-
+            clearTimeout(showcardtimer);
             messageElement.style.display = 'block';
-            setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
+            showcardtimer =  setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
 
         }
 
@@ -653,21 +754,39 @@
             hideOverlayPiece();
 
             if (checkWinner()) {
-                messageElement.textContent = "";
-                messageElement.appendChild(victoryimg1);
-                var victorytext = `${currentPlayer === Piece1 ? '玩家一' : '玩家二'} 獲勝 !`;
-                let victorytextcontainer = document.createElement("div");
-                victoryimg1.after(victorytextcontainer, victorytext);
-                let victorytextcontainer2 = document.createElement("div");
-                victorytextcontainer2.appendChild(victoryimg2);
-                messageElement.appendChild(victorytextcontainer2);
-                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                console.log(currentPlayer+" Win!");
+                messageElement.style.background = "transparent";
+                messageElement.style.border = "0px";
+                if(currentPlayer == Piece1){
+                    messageElement.textContent ="";
+                    if(theme==1){
+                        messageElement.appendChild(S1C1img);
+                    }
+                    if(theme==2){
+                        messageElement.appendChild(S2C1img);
+                    }
+                    if(theme==3){
+                        messageElement.appendChild(S3C1img);
+                    }
+                   
+                }else{
+                    messageElement.textContent ="";
+                    if(theme==1){
+                        messageElement.appendChild(S1C2img);
+                    }
+                    if(theme==2){
+                        messageElement.appendChild(S2C2img);
+                    }
+                    if(theme==3){
+                        messageElement.appendChild(S3C2img);
+                    }
+                }
+                clearTimeout(showcardtimer);
                 messageElement.style.display = 'block';
                 document.getElementById('victorysound').play();
-
                 setTimeout(() => {
                     restartButton.style.display = 'block';
-                    messageElement.style.display = 'block';
+                    quitButton.style.display = 'block';
                 }, 1000);
             } else {
                 if (card == 'gold' && double == 1) {
@@ -701,49 +820,68 @@
 
         function drawCard() {
             if (canDrawCard == true) {
-                const randomNum = Math.random();
+            const randomNum = Math.random();
 
-                if (randomNum < 0.05) {
-                    card = 'gold'; // 5% chance
-                } else if (randomNum < 0.25) { // (0.05 + 0.20 = 0.25)
-                    card = 'black'; // 20% chance
-                } else {
-                    card = 'yellow'; // 75% chance
-                }
-                //const card = Math.random() < 0.8 ? 'yellow' : 'black'; // 80%的機率
-                cardArea.textContent = `抽到的卡片: ${card}`;
+            if (randomNum < 0.05) {
+                card = 'gold'; // 5% chance
+            } else if (randomNum < 0.25) { // (0.05 + 0.20 = 0.25)
+                card = 'black'; // 20% chance
+            } else {
+                card = 'yellow'; // 75% chance
+            }
+            cardArea.textContent = `抽到的卡片: ${card}`;
 
-                if (card === 'yellow') {
-                    canPlay = true;
-                    canDrawCard = false;
-                    messageElement.textContent = "";
-                    cardimg.src = goodcard;
-                    messageElement.appendChild(cardimg);
-                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
-                    showcard();
-                    console.log("可以下棋！");
-                } else if (card === 'gold') {
-                    double = 1;
-                    canPlay = true;
-                    canDrawCard = false;
-                    messageElement.textContent = "";
-                    cardimg.src = goodcardx2;
-                    messageElement.appendChild(cardimg);
-                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
-                    showcard();
-                    console.log("可以下棋！");
-                } else {
-                    canPlay = false; // 玩家不能下棋，輪到另一位玩家
-                    canDrawCard = false;
-                    messageElement.textContent = "";
-                    cardimg.src = badcard;
-                    messageElement.appendChild(cardimg);
-                    messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
-                    showcard();
-                    console.log("無法下棋，輪到另一位玩家！");
-                    currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
-                    updateAvatarBorder();
-                }
+            if (card === 'yellow') {
+                canPlay = true;
+                canDrawCard = false;
+                messageElement.textContent = "";
+                cardimg.src = goodcard;
+                messageElement.appendChild(cardimg);
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                showcard();
+                console.log("可以下棋！");
+            } else if (card === 'gold') {
+                double = 1;
+                canPlay = true;
+                canDrawCard = false;
+                messageElement.textContent = "";
+                cardimg.src = goodcardx2;
+                messageElement.appendChild(cardimg);
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                showcard();
+                console.log("可以下棋！");
+            } else {
+                canPlay = false; // 玩家不能下棋，輪到另一位玩家
+                canDrawCard = false;
+                messageElement.textContent = "";
+                cardimg.src = badcard;
+                messageElement.appendChild(cardimg);
+                messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
+                showcard();
+                console.log("無法下棋，輪到另一位玩家！");
+
+                // Allow player to remove one piece
+                messageElement.textContent = "移除一顆棋子！";
+                boardElement.addEventListener('click', handleRemovePiece, { once: true });
+            }
+            }
+        }
+
+        function handleRemovePiece(event) {
+            const cell = event.target;
+            const row = cell.dataset.row;
+            const col = cell.dataset.col;
+
+            if (row !== undefined && col !== undefined && board[row][col]) {
+            board[row][col] = null; // Remove the piece from the board array
+            cell.innerHTML = ''; // Clear the piece visually
+            console.log(`移除了棋子: (${row}, ${col})`);
+            currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+            updateAvatarBorder();
+            } else {
+            console.log("無效的移除操作！");
+           // messageElement.textContent = "只可移除對方的棋子！";
+            boardElement.addEventListener('click', handleRemovePiece, { once: true });
             }
         }
 
@@ -794,6 +932,11 @@
             initBoard(boardSize);
             messageElement.textContent = "";
             document.getElementById('clicksound').play();
+        });
+
+        quitButton.addEventListener('click', () => {
+            document.getElementById('clicksound').play();
+            location.reload();
         });
 
     </script>
