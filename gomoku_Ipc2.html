@@ -116,8 +116,8 @@
         #board {
             display: grid;
             gap: 1px;
-            background-color: #a57441;
-            border: 2px solid #846b4f;
+            background-color: #dbd8d5;
+            border: 2px solid #4f5184;
         }
 
         .flex-container {
@@ -234,10 +234,10 @@
         }
 
         .avataroption {
-            width: 23vw;
+            width: 14vw;
             min-width: 110px;
             height: auto;
-            margin: 1vh 10vw;
+            margin: 1vh 5vw;
             border: 8px solid white;
             border-radius: 50%;
             cursor: pointer;
@@ -352,7 +352,7 @@
         <!-- //Note: Choose Avator-->
         <div id="chooseavator" style="display:none;">
             <div style="font-size: calc(16px + 1.2vw)">
-                <div style="margin: auto; width: max-content; ">
+                <div style="margin: auto; width: 100%; ">
                     <div style="padding-top: 3vh; padding-bottom: 3vh;">選擇你的角色</div>
                     <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
                     <div style="display: inline-block;"><img id="Avator1" class="avataroption" src="images/lpc2/C1.png" name="C1">
@@ -398,7 +398,7 @@
     <script>
 
         let scene;
-        let boardSize = 15;
+        let boardSize = 18;
         let board;
         let currentPlayer;
         let canPlay = false;
@@ -580,7 +580,9 @@
             var screensize = window.innerWidth;
             if (screensize <= 600) {
                 boardSize = 8;
-            } else {
+            } else if(screensize <= 1064 && screensize > 600) {
+                boardSize = 15;
+            }else{
                 boardSize = size;
             }
 
