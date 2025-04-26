@@ -40,7 +40,8 @@
             width: 95%;
             max-width: 1280px;
             height: 80vh;
-            background-image: url("images/lpc2/background1.png");
+            min-height: fit-content;
+            background-color: lightgray;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -100,6 +101,18 @@
             transform: translate(-50%, -50%);
         }
 
+        .themebox {
+            width: 90%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .themebox:hover {
+            opacity: 0.8;
+            filter: drop-shadow(0 0 0.75rem #ff7f2f);
+        }
+
+
         #board {
             display: grid;
             gap: 1px;
@@ -152,12 +165,12 @@
             background-color: green;
         }
 
-        .pink {
-            background-color: rgb(222, 108, 127);
+        .orange {
+            background-color: #dd280c;
         }
 
-        .orange {
-            background-color: #FF8E7F;
+        .yellow {
+            background-color: #e58b04;
         }
 
         .cell:hover {
@@ -221,11 +234,11 @@
         }
 
         .avataroption {
-            width: 10vw;
+            width: 23vw;
             min-width: 110px;
             height: auto;
-            margin: 5px;
-            border: 5px solid white;
+            margin: 1vh 10vw;
+            border: 8px solid white;
             border-radius: 50%;
             cursor: pointer;
         }
@@ -245,7 +258,7 @@
             font-size: larger;
             background-color: #f0f0f0;
             background-image: linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81));
-            padding: 10px;
+            padding: 15px;
             margin: auto;
             border-radius: 30px;
             border: 5px solid #fffefd;
@@ -282,7 +295,8 @@
                 border: 5px solid #767676;
                 border-radius: 0px;
                 position: relative;
-                margin: auto;
+                width: 100%;
+                height: fit-content;
             }
 
             .flex-container {
@@ -298,27 +312,39 @@
 
         <!-- //Note: Loading Page -->
         <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 25%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
-                src="images/lpc2/playbutton.png" alt="開始遊戲" onclick="loadgame()">
+                src="images/lpc2/Startv2.png" alt="開始遊戲" onclick="loadgame()">
             <div class="blackoverlay" style="height: 100%;  z-index: 99;"></div>
         </div>
 
+        <!-- //Note: Choose Theme -->
+        <div id="ChooseTheme">
+            <div style="font-size: calc(16px + 1.2vw);padding-top: 3vh; padding-bottom: 3vh;">選擇一個主題</div>
+            <div style="display: flex;">
+                <div><img class="themebox" src="images/lpc2/S1Theme.png" alt="哪吒" onclick="Theme1()"></div>
+                <div><img class="themebox" src="images/lpc2/S2Theme.png" alt="小新"></div>
+                <div><img class="themebox" src="images/lpc2/S3Theme.png" alt="隊長"></div>
+            </div>
+        </div>
+
         <!-- //Note: Game Menu -->
-
-
         <div id="gamecover">
-           
             <div id="gamemenu" style="display: none;">
-                <div class="titleimg" style="width: 60%; top:25% ">
-
+                <div class="titleimg">
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
                         <img width="95%" src="images/lpc2/logo.png" alt="五子棋">
                     </div>
-
                 </div>
                 <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
-                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"><img
-                            style="width: 10vw; min-width: 50px; max-width: 100px;" src="images/lpc2/startgame.png" alt="開始遊戲"></button>
+                    <div class="animate__animated animate__pulse animate__slow animate__infinite " onclick="ShowCharactors()"><img
+                            style="width: 30vw; min-width: 80px; max-width: 250px; cursor: pointer;" src="images/lpc2/Startv1.png" alt="開始遊戲"></div>
                 </div>
+            </div>
+        </div>
+
+        <div id="VSScene" style="display: none;">
+            <div class="blackoverlay">
+                <div class="animate__animated animate__pulse animate__slow animate__infinite " onclick="chooseAvator()"><img
+                        style="width: 30vw; min-width: 80px; max-width: 250px; cursor: pointer;" src="images/lpc2/Startv1.png" alt="開始遊戲"></div>
             </div>
         </div>
 
@@ -326,39 +352,35 @@
         <!-- //Note: Choose Avator-->
         <div id="chooseavator" style="display:none;">
             <div style="font-size: calc(16px + 1.2vw)">
-                <div style="margin: 4% 12%; width: max-content; ">
-                    <div>選擇你的角色和棋子顏色</div><br>
+                <div style="margin: auto; width: max-content; ">
+                    <div style="padding-top: 3vh; padding-bottom: 3vh;">選擇你的角色</div>
                     <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
+                    <div style="display: inline-block;"><img id="Avator1" class="avataroption" src="images/lpc2/C1.png" name="C1">
+                        <div id="AvatorName1" style="font-size: larger;"></div>
+                    </div>
+                    <div style="display: inline-block; "><img id="Avator2" class="avataroption" src="images/lpc2/C2.png" name="C2">
+                        <div id="AvatorName2" style="font-size: larger;"></div>
+                    </div>
                     <br>
-                    <div style="display: inline-block;"><img id="Avator1" class="avataroption" src="images/lpc2/C1.png" alt="C1"></div>
-                    <div style="display: inline-block; "><img id="Avator2" class="avataroption" src="images/lpc2/C2.png" alt="C2"></div>
-                    <div style="display: inline-block; "><img id="Avator3" class="avataroption" src="images/lpc2/C3.png" alt="C3"></div>
-                    
-                    <br>
-                    <div id="black" class="pieceoption black"> </div>
-                    <div id="white" class="pieceoption white"> </div>
-                    <div id="blue" class="pieceoption blue"> </div>
-                    <div id="green" class="pieceoption green"> </div>
-                    <div id="pink" class="pieceoption pink"> </div>
+
                 </div>
             </div>
+
         </div>
 
         <!-- //Note: Main Game -->
-        <div id="maingame" style="display: none; background-color: #A9E3E4; ">
+        <div id="maingame" style="display: none; ">
             <div id="controls" style="display: none;">
                 <input type="number" id="sizeInput" value="15" min="5" max="30" />
                 <div id="createBoard" class="smallbutton">創建棋盤</div>
             </div>
-            <div class="flex-container" style="background-image: url('/images/lpc2/background1.png');">
+            <div class="flex-container">
                 <div id="board"></div>
                 <div class="messagebox">
-
                     <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/piggy_gomoku_blackpig.jpg" alt="黑棋"></div>
                     <div style="display: none;" id="card-area"></div>
                     <button id="draw-card" onclick="drawCard()">抽卡</button>
                     <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/piggy_gomoku_whitepig.jpg" alt="白棋"></div>
-
                 </div>
             </div>
             <div id="message"></div>
@@ -367,7 +389,7 @@
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
 
-   
+
     </div>
 
     <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
@@ -375,7 +397,7 @@
     <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
 
-        let scene; 
+        let scene;
         let boardSize = 15;
         let board;
         let currentPlayer;
@@ -387,6 +409,8 @@
         let Piece2;
         let card;
         let double = 1;
+        let theme = 1;
+        let backgroundnum = 1;
 
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
@@ -399,8 +423,10 @@
         const cardArea = document.getElementById('card-area');
         const drawCardButton = document.getElementById('draw-card');
         const AvatorOptions = document.querySelectorAll('.avataroption');
-        const PieceOptions = document.querySelectorAll('.pieceoption');
+        // const PieceOptions = document.querySelectorAll('.pieceoption');
         var avatormessage = document.getElementById("avatormessage");
+        var BGImg = document.querySelector('.container');
+        var TitleText = document.getElementsByClassName('titleimg')[1];
 
         var cardimg = document.createElement("img");
         cardimg.setAttribute("src", "images/lpc2/goodcard.png");
@@ -424,58 +450,87 @@
 
         function loadgame() {
             document.getElementById("bgmusic").play();
+            document.getElementById('clicksound').play();
             document.getElementById("loadgamemask").style.display = "none";
+            // document.getElementById("gamemenu").style.display = "block";
+        }
+
+        function Theme1() {
+            document.getElementById('clicksound').play();
+            TitleText.style.top = "30%";
+            //backgroundnum = Math.floor(Math.random() * 2) + 1;
+            //BGImg.style.backgroundImage = "url('images/lpc2/S1BG"+backgroundnum+".jpg')";
+            BGImg.style.backgroundImage = "url('images/lpc2/S1Cover.jpg')";
+            AvatorOptions[0].src = "images/lpc2/S1C2.png";
+            AvatorOptions[1].src = "images/lpc2/S1C1.png";
+            document.getElementById("AvatorName1").innerHTML = "靈硃";
+            document.getElementById("AvatorName2").innerHTML = "魔丸";
+            theme = 1;
+            document.getElementById("ChooseTheme").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
-            const rndInt = Math.floor(Math.random() * 3) + 1
-            var newbg = "images/lpc2/background"+rndInt+".png";
-            console.log(newbg);
-            document.getElementById('backgroundimg').src=newbg;
+        }
+
+        function ShowCharactors() {
+            document.getElementById('clicksound').play();
+            document.getElementById("gamecover").style.display = "none";
+            document.getElementById("VSScene").style.display = "block";
+            if (theme == 1) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S1VS.jpg')";
+            }
+            if (theme == 2) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S2VS.jpg')";
+            }
+            if (theme == 3) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S3VS.jpg')";
+            }
         }
 
         function chooseAvator() {
+            document.getElementById("VSScene").style.display = "none";
             document.getElementById('clicksound').play();
+            BGImg.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+            BGImg.style.backgroundBlendMode = "lighten";
+
+            if (theme == 1) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S1BG2.jpg')";
+            }
+            if (theme == 2) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S2BG2.jpg')";
+            }
+            if (theme == 3) {
+                BGImg.style.backgroundImage = "url('images/lpc2/S3Cover.jpg')";
+            }
             //window.open("gomoku_basic_duel.html","_self").focus();
-            document.getElementById("gamemenu").style.display = "none";
-            document.getElementById("gamecover").style.display = "none";
             document.getElementById("chooseavator").style.display = "block";
             avatormessage.textContent = "玩家一";
-            console.log(Avator1 + " " + Piece1);
             AvatorOptions.forEach((AvatorOption) => {
                 AvatorOption.addEventListener("click", Player1Avator);
-            });
-            PieceOptions.forEach((PieceOption) => {
-                PieceOption.addEventListener("click", Player1Piece);
             });
         }
 
         function Player1Avator() {
-            AvatorOptions.forEach((AvatorOption) => {
-                AvatorOption.classList.remove("active");
-            });
             this.classList.add("active")
             document.getElementById('clicksound').play();
             Avator1 = this.src;
             blackAvatar.src = Avator1;
-            console.log(Avator1);
-            if (Avator1 !== undefined && Piece1 !== undefined) {
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { SetPlayer2(); }, 1000);
-            }
+            console.log(Avator1 + " | Name:" + this.name);
+            avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+            setTimeout(() => {
+                this.style.display = "none";
+                if (theme == 1) {
+                    if (this.name == "C1") {
+                        Piece1 = "blue";
+                        document.getElementById("AvatorName1").style.display = "none";
+                    } else {
+                        Piece1 = "orange";
+                        document.getElementById("AvatorName2").style.display = "none";
+                    }
+                }
+                SetPlayer2();
+            }, 1500
+            );
         }
 
-        function Player1Piece() {
-            PieceOptions.forEach((PieceOption) => {
-                PieceOption.classList.remove("active");
-            });
-            this.classList.add("active")
-            document.getElementById('clicksound').play();
-            Piece1 = this.id;
-            console.log(Piece1);
-            if (Avator1 !== undefined && Piece1 !== undefined) {
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { SetPlayer2(); }, 1000);
-            }
-        }
 
         function SetPlayer2() {
             currentPlayer = Piece1;
@@ -487,52 +542,36 @@
                 AvatorOption.removeEventListener("click", Player1Avator);
                 AvatorOption.addEventListener("click", Player2Avator);
             });
-            PieceOptions.forEach((PieceOption) => {
-                PieceOption.classList.remove("active");
-                PieceOption.removeEventListener("click", Player1Piece);
-                PieceOption.addEventListener("click", Player2Piece);
-            });
-
-
         }
 
         function Player2Avator() {
-            AvatorOptions.forEach((AvatorOption) => {
-                AvatorOption.classList.remove("active");
-            });
             this.classList.add("active")
             document.getElementById('clicksound').play();
             Avator2 = this.src;
             whiteAvatar.src = Avator2;
-            console.log(Avator2);
-            if (Avator2 !== undefined && Piece2 !== undefined) {
-                avatormessage.textContent = "遊戲開始！";
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
-                setTimeout(() => { startGame(); }, 1000);
+            console.log(Avator2 + " | Name:" + this.name);
+            avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+            this.style.display = "none";
+            if (theme == 1) {
+                if (this.name == "C1") {
+                    Piece2 = "blue";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece2 = "orange";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
             }
-        }
+            avatormessage.textContent = "遊戲開始！";
+            setTimeout(() => {
+                avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow');
+            }, 200);
+            setTimeout(() => { startGame(); }, 1000);
 
-        function Player2Piece() {
-            PieceOptions.forEach((PieceOption) => {
-                PieceOption.classList.remove("active");
-            });
-            this.classList.add("active")
-            document.getElementById('clicksound').play();
-            Piece2 = this.id;
-            console.log(Piece2);
-            if (Avator2 !== undefined && Piece2 !== undefined) {
-                avatormessage.textContent = "遊戲開始！";
-                avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
-                setTimeout(() => { avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow'); }, 200);
-                setTimeout(() => { startGame(); }, 1000);
-            }
         }
 
         function startGame() {
             document.getElementById("chooseavator").style.display = "none";
             document.getElementById("maingame").style.display = "block";
-            document.getElementsByClassName("container")[0].style.maxHeight = "100vh";
             initBoard(boardSize);
         }
 
@@ -546,7 +585,7 @@
             }
 
             board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-            boardElement.innerHTML = ''; // Clear the board
+            boardElement.innerHTML = ''; 
             boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
             boardElement.style.gridTemplateRows = `repeat(${boardSize}, 40px)`;
 
