@@ -136,7 +136,7 @@
         .cell {
             width: 40px;
             height: 40px;
-            background-color: #fbf7ed;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -175,7 +175,7 @@
         }
 
         .cell:hover {
-            background-color: #846b4f;
+            background-color: #4f5784;
         }
 
         #message {
@@ -205,7 +205,6 @@
             align-items: center;
             flex-direction: column;
             margin: auto;
-            padding-bottom: 15%;
         }
 
         #sizeInput {
@@ -221,7 +220,8 @@
         }
 
         .avatar {
-            width: 80px;
+            width: 10vw;
+            min-width:100px;
             height: auto;
             margin: 10px;
             border: 5px solid transparent !important;
@@ -231,7 +231,7 @@
         }
 
         .active {
-            border: 5px solid orange !important;
+            border: 8px solid orange !important;
         }
 
         .avataroption {
@@ -248,7 +248,6 @@
         .pieceoption {
             width: 50px;
             height: 50px;
-            ;
             margin: 5px;
             border-radius: 50%;
             display: inline-block;
@@ -299,7 +298,6 @@
                 position: relative;
                 width: 100%;
                 aspect-ratio: auto;
-                height:50vh;
                 min-height: fit-content;
             }
 
@@ -323,16 +321,17 @@
         <!-- //Note: Choose Theme -->
         <div id="ChooseTheme">
             <div style="font-size: calc(16px + 1.2vw);padding-top: 3vh; padding-bottom: 3vh;">選擇一個主題</div>
-            <div style="display: flex;">
+            <div style="display: flex; ">
                 <div><img class="themebox" src="images/lpc2/S1Theme.png" alt="哪吒" onclick="Theme1()"></div>
                 <div><img class="themebox" src="images/lpc2/S2Theme.png" alt="小新" onclick="Theme2()"></div>
                 <div><img class="themebox" src="images/lpc2/S3Theme.png" alt="隊長" onclick="Theme3()"></div>
             </div>
+            <br>
         </div>
 
         <!-- //Note: Game Menu -->
         <div id="gamecover">
-            <div id="gamemenu" style="display: none;">
+            <div id="gamemenu" style="display: none; aspect-ratio: 4 / 3;">
                 <div class="titleimg">
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
                         <img width="95%" src="images/lpc2/logo.png" alt="五子棋">
@@ -345,8 +344,8 @@
             </div>
         </div>
 
-        <div id="VSScene" style="display: none;">
-            <div class="blackoverlay">
+        <div id="VSScene" style="display: none; aspect-ratio: 4 / 3">
+            <div class="blackoverlay" style="background-color: transparent;">
                 <div class="animate__animated animate__pulse animate__slow animate__infinite " onclick="chooseAvator()"><img
                         style="width: 30vw; min-width: 80px; max-width: 250px; cursor: pointer;" src="images/lpc2/Startv1.png" alt="開始遊戲"></div>
             </div>
@@ -354,7 +353,7 @@
 
 
         <!-- //Note: Choose Avator-->
-        <div id="chooseavator" style="display:none;">
+        <div id="chooseavator" style="display:none; aspect-ratio: 4 / 3">
             <div style="font-size: calc(16px + 1.2vw)">
                 <div style="margin: auto; width: 100%; ">
                     <div style="padding-top: 3vh; padding-bottom: 3vh;">選擇你的角色</div>
@@ -366,10 +365,8 @@
                         <div id="AvatorName2" style="font-size: larger;"></div>
                     </div>
                     <br>
-
                 </div>
             </div>
-
         </div>
 
         <!-- //Note: Main Game -->
@@ -664,8 +661,11 @@
         }
 
         function startGame() {
+            document.getElementById('clicksound').play();
             document.getElementById("chooseavator").style.display = "none";
             document.getElementById("maingame").style.display = "block";
+            BGImg.style.aspectRatio = "auto";
+            BGImg.style.height = "fit-content";
             initBoard(boardSize);
         }
 
@@ -708,7 +708,6 @@
             clearTimeout(showcardtimer);
             messageElement.style.display = 'block';
             showcardtimer =  setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
-
         }
 
         // Show overlay piece

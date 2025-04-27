@@ -25,17 +25,9 @@
 
         body,
         html {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            text-align: center;
             background-color: #ccb4a4;
             font-family: Righteous, Iansui, Arial, Helvetica, sans-serif;
-            position: relative;
+            text-align: center;
         }
 
         .container {
@@ -43,22 +35,17 @@
             border: 8px solid #767676;
             border-radius: 8px;
             position: relative;
-            margin: 10px 5vw;
             text-align: center;
-            max-height: fit-content;
-            background-size: cover;
-            background-position: center;
-            background-color: #A9E3E4;
+            margin: auto;
             width: 95%;
             max-width: 1280px;
-        }
-
-        .coverbg {
-            width: 100%;
-            max-height: 80vh;
-            object-fit: cover;
-            display: block;
-            background-color: #767676;
+            aspect-ratio: 4 / 3;
+            min-height: fit-content;
+            max-height: 100vh;
+            background-color: rgb(192, 224, 241);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .blackoverlay {
@@ -118,8 +105,8 @@
         #board {
             display: grid;
             gap: 1px;
-            background-color: #a57441;
-            border: 2px solid #846b4f;
+            background-color: #2c6bd1;
+            border: 2px solid #2c6bd1;
         }
 
         .flex-container {
@@ -137,7 +124,7 @@
         .cell {
             width: 40px;
             height: 40px;
-            background-color: #fff5db;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -167,8 +154,8 @@
             background-color: green;
         }
 
-        .pink {
-            background-color: rgb(222, 108, 127);
+        .lightgrey {
+            background-color: rgb(151, 151, 151);
         }
 
         .orange {
@@ -176,7 +163,7 @@
         }
 
         .cell:hover {
-            background-color: #846b4f;
+            background-color: #4f5384;
         }
 
         #message {
@@ -197,7 +184,7 @@
             background-attachment: fixed;
             padding: 20px;
             border-radius: 25px;
-            border: 5px solid #fffefd;
+            border: 5px solid #ffffff;
         }
 
         .messagebox {
@@ -206,7 +193,6 @@
             align-items: center;
             flex-direction: column;
             margin: auto;
-            padding-bottom: 15%;
         }
 
         #sizeInput {
@@ -222,7 +208,9 @@
         }
 
         .avatar {
-            width: 80px;
+            width: 10vw;
+            min-width: 100px;
+            max-width: 150px;
             height: auto;
             margin: 10px;
             border: 5px solid transparent !important;
@@ -232,23 +220,39 @@
         }
 
         .active {
-            border: 5px solid orange !important;
+            border: 8px solid orange !important;
         }
 
         .avataroption {
-            width: 10vw;
-            min-width: 110px;
+            width: 14vw;
+            min-width: 120px;
+            max-width: 300px;
             height: auto;
-            margin: 5px;
-            border: 5px solid white;
+            margin: 1vh 5vw;
+            border: 8px solid white;
             border-radius: 50%;
             cursor: pointer;
+        }
+
+        .specialpiece {
+            width: 5vw;
+            min-width: 50px;
+            max-width: 80px;
+            height: auto;
+            margin: 5px;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .defenced {
+            background-color: #969696;
         }
 
         .pieceoption {
             width: 50px;
             height: 50px;
-            ;
             margin: 5px;
             border-radius: 50%;
             display: inline-block;
@@ -260,7 +264,7 @@
             font-size: larger;
             background-color: #f0f0f0;
             background-image: linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81));
-            padding: 10px;
+            padding: 15px;
             margin: auto;
             border-radius: 30px;
             border: 5px solid #fffefd;
@@ -281,6 +285,46 @@
             filter: drop-shadow(0 0 0.75rem rgb(255, 255, 255));
         }
 
+        .wrap {
+            position: relative;
+            width: 100px;
+            height: 110px;
+        }
+
+        .petal {
+            width: 0;
+            height: 0;
+            border-left: 32px solid transparent;
+            border-right: 32px solid transparent;
+            border-top: 45px solid rgba(20, 30, 255, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            transform-origin: center 50px;
+        }
+
+        .petal:nth-child(1) {
+            transform: rotate(35deg);
+        }
+
+        .petal:nth-child(2) {
+            transform: rotate(107deg);
+        }
+
+        .petal:nth-child(3) {
+            transform: rotate(179deg);
+        }
+
+        .petal:nth-child(4) {
+            transform: rotate(251deg);
+        }
+
+        .petal:nth-child(5) {
+            transform: rotate(323deg);
+        }
+
         @media screen and (max-width: 600px) {
 
             body,
@@ -297,7 +341,9 @@
                 border: 5px solid #767676;
                 border-radius: 0px;
                 position: relative;
-                margin: auto;
+                width: 100%;
+                aspect-ratio: auto;
+                min-height: fit-content;
             }
 
             .flex-container {
@@ -318,10 +364,8 @@
         </div>
 
         <!-- //Note: Game Menu -->
-
         <div id="gamecover">
-            <img class="coverbg" src="images/lpc1/background.jpg">
-            <div id="gamemenu" style="display: none;">
+            <div id="gamemenu" style="display: none; aspect-ratio: 4 / 3;">
                 <div class="titleimg" style="width: 27%; top:17%; left:83%;">
 
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
@@ -330,34 +374,88 @@
 
                 </div>
                 <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
-                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="startGame()"><img
+                    <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="ShowCharactors()"><img
                             style="width: 18vw; min-width: 120px; max-width: 250px;" src="images/lpc1/startgame.png" alt="開始遊戲"></button>
                 </div>
             </div>
         </div>
 
+        <div id="VSScene" style="display: none; aspect-ratio: 4 / 3">
+            <div class="blackoverlay" style="background-color: transparent;">
+                <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="chooseAvator()"
+                    style="width: 18vw; min-width: 120px; max-width: 250px;">開始</button>
+            </div>
+        </div>
+
+        <!-- //Note: Choose Avator-->
+        <div id="chooseavator" style="display:none; aspect-ratio: 4 / 3">
+            <div style="font-size: calc(16px + 1.2vw)">
+                <div style="margin: auto; width: 100%; ">
+                    <div style="padding-top: 3vh; padding-bottom: 3vh;">選擇你的角色</div>
+                    <div id="avatormessage" class="animate__animated animate__rubberBand  animate__slow"></div>
+                    <div style="display: inline-block;"><img id="Avator1" class="avataroption" src="images/lpc1/C1.png" name="C1">
+                        <div id="AvatorName1" style="font-size: larger;">學生</div>
+                    </div>
+                    <div style="display: inline-block; "><img id="Avator2" class="avataroption" src="images/lpc1/C2.png" name="C2">
+                        <div id="AvatorName2" style="font-size: larger;">老師</div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
         <!-- //Note: Main Game -->
-        <div id="maingame" style="display: none; background-color: #5187d3; ">
+        <div id="maingame" style="display: none;">
             <div id="controls" style="display: none;">
                 <input type="number" id="sizeInput" value="15" min="5" max="30" />
                 <div id="createBoard" class="smallbutton">創建棋盤</div>
             </div>
-            <div class="flex-container" style="background-image: url('/images/lpc1/background.jpg');">
+            <div class="flex-container">
                 <div id="board"></div>
                 <div class="messagebox">
-                    <div>老師</div>
-                    <div style="display: inline-flex;"><img id="blackAvatar" class="avatar" src="images/lpc1/C2.png" alt="黑棋"></div>
-                    <br><br>
+                    <div style="display: inline-flex; align-items:center">
+                        <img id="A1Defence" class="specialpiece" src="images/lpc1/P1.png" alt="A1Defence">
+                        <img id="A1Attack" class="specialpiece" src="images/lpc1/P2.png" alt="A1Attack">
+                        <img id="A1Surround" class="specialpiece" src="images/lpc1/P3.png" alt="A1Surround">
+                    </div>
+                    <br>
+                    <div style="display: inline-flex; align-items:center">
+                        <img id="blackAvatar" class="avatar" src="images/lpc1/C2.png" alt="黑棋">&nbsp;&nbsp;
+                        <div id="blackPower" class="wrap">
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr style="border: 2px solid #767676; width: 100%;">
+                    <br>
 
-                    <div style="display: inline-flex;"><img id="whiteAvatar" class="avatar" src="images/lpc1/C1.png" alt="白棋"></div>
-                    <div>學生</div>
+                    <div style="display: inline-flex; align-items:center">
+                        <img id="whiteAvatar" class="avatar" src="images/lpc1/C1.png" alt="白棋">&nbsp;&nbsp;
+                        <div id="whitePower" class="wrap">
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="display: inline-flex; align-items:center">
+                        <img id="A2Defence" class="specialpiece" src="images/lpc1/P1.png" alt="A2Defence">
+                        <img id="A2Attack" class="specialpiece" src="images/lpc1/P2.png" alt="A2Attack">
+                        <img id="A2Surround" class="specialpiece" src="images/lpc1/P3.png" alt="A2Surround">
+                    </div>
                 </div>
             </div>
             <div id="message"></div>
             <button class="mainbutton green" id="restart"><img style="width: 12vw; min-width: 100px; max-width: 150px;"
                     src="images/lpc1/restartgame.png" alt="再來一局"></button>
-            <button class="mainbutton blue" id="quit" style="left:56%"><img style="width: 10vw; min-width: 80px; max-width: 130px; " src="images/lpc1/quit.png"
-                    alt="退出"></button>
+            <button class="mainbutton blue" id="quit" style="left:56%"><img style="width: 10vw; min-width: 80px; max-width: 130px; "
+                    src="images/lpc1/quit.png" alt="退出"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
     </div>
@@ -366,17 +464,11 @@
     <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
     <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
-
-        function loadgame() {
-            document.getElementById("bgmusic").play();
-            document.getElementById("loadgamemask").style.display = "none";
-            document.getElementById("gamemenu").style.display = "block";
-            window.addEventListener('keydown', startGame);
-        }
-
-        let boardSize = 15;
+    
+        let boardSize = 18;
         let board;
-        let currentPlayer = 'black';
+        let piecenum = 0;
+        let currentPlayer;
         let canPlay = false;
         let canDrawCard = true;
         let Avator1;
@@ -385,6 +477,11 @@
         let Piece2;
         let card;
         let double = 1;
+        let showcardtimer;
+        let blackSpecialCount = 5;
+        let whiteSpecialCount = 5;
+        let defensePieces = new Set();
+        let specialMode = null;
 
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
@@ -395,6 +492,17 @@
         const blackAvatar = document.getElementById('blackAvatar');
         const whiteAvatar = document.getElementById('whiteAvatar');
         const overlayPiece = document.getElementById('overlayPiece');
+        const AvatorOptions = document.querySelectorAll('.avataroption');
+        var avatormessage = document.getElementById("avatormessage");
+        var BGImg = document.querySelector('.container');
+        BGImg.style.backgroundImage = "url('images/lpc1/background.jpg')";
+
+        const A1Defence = document.getElementById("A1Defence");
+        const A2Defence = document.getElementById("A2Defence");
+        const A1Attack = document.getElementById("A1Attack");
+        const A2Attack = document.getElementById("A2Attack");
+        const A1Surround = document.getElementById("A1Surround");
+        const A2Surround = document.getElementById("A2Surround");
 
         var teacherimg = document.createElement("img");
         teacherimg.setAttribute("src", "images/lpc1/teacherwin.png");
@@ -407,29 +515,122 @@
         studentimg.style.width = "30vw";
         studentimg.style.minWidth = "180px";
         studentimg.style.maxWidth = "300px";
-        
-        function startGame() {
-            //window.open("gomoku_basic_duel.html","_self").focus();
-            window.removeEventListener('keydown', startGame);
-            document.getElementById("gamemenu").style.display = "none";
-            document.getElementById("gamecover").style.display = "none";
-            document.getElementById("maingame").style.display = "block";
+
+
+        function loadgame() {
+            document.getElementById("bgmusic").play();
+            document.getElementById("loadgamemask").style.display = "none";
+            document.getElementById("gamemenu").style.display = "block";
+            window.addEventListener('keydown', ShowCharactors);
+        }
+
+        function ShowCharactors() {
+            window.removeEventListener('keydown', ShowCharactors);
             document.getElementById('clicksound').play();
-            document.getElementsByClassName("container")[0].style.maxHeight = "100vh";
-            initBoard(boardSize);
+            document.getElementById("gamecover").style.display = "none";
+            BGImg.style.backgroundImage = "url('images/lpc1/VS.jpg')";
+            document.getElementById("VSScene").style.display = "block";
+        }
+
+        function chooseAvator() {
+            document.getElementById("VSScene").style.display = "none";
+            document.getElementById('clicksound').play();
+            BGImg.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+            BGImg.style.backgroundBlendMode = "lighten";
+            BGImg.style.backgroundImage = "";
+            document.getElementById("chooseavator").style.display = "block";
+            avatormessage.textContent = "玩家一";
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.addEventListener("click", Player1Avator);
+            });
+        }
+
+        function Player1Avator() {
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Avator1 = this.src;
+            blackAvatar.src = Avator1;
+            console.log(Avator1 + " | Name:" + this.name);
+            avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.removeEventListener("click", Player1Avator);
+            });
+            setTimeout(() => {
+                this.style.display = "none";
+                if (this.name == "C1") {
+                    Piece1 = "white";
+                    document.getElementById("AvatorName1").style.display = "none";
+                } else {
+                    Piece1 = "black";
+                    document.getElementById("AvatorName2").style.display = "none";
+                }
+                SetPlayer2();
+            }, 1000);
+        }
+
+
+        function SetPlayer2() {
+            currentPlayer = Piece1;
+            avatormessage.textContent = "玩家二";
+            avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow');
+            console.log("Avator1 Done");
+            AvatorOptions.forEach((AvatorOption) => {
+                AvatorOption.classList.remove("active");
+                AvatorOption.addEventListener("click", Player2Avator);
+            });
+        }
+
+        function Player2Avator() {
+            this.classList.add("active")
+            document.getElementById('clicksound').play();
+            Avator2 = this.src;
+            whiteAvatar.src = Avator2;
+            console.log(Avator2 + " | Name:" + this.name);
+            avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
+            this.style.display = "none";
+            if (this.name == "C1") {
+                Piece2 = "white";
+                document.getElementById("AvatorName1").style.display = "none";
+            } else {
+                Piece2 = "black";
+                document.getElementById("AvatorName2").style.display = "none";
+            }
+
+            avatormessage.textContent = "遊戲開始！";
+            setTimeout(() => {
+                avatormessage.classList.add('animate__animated', 'animate__rubberBand', 'animate__slow');
+            }, 200);
+            setTimeout(() => { startGame(); }, 1000);
 
         }
+
+
+        function startGame() {
+            //window.open("gomoku_basic_duel.html","_self").focus();
+            document.getElementById("gamemenu").style.display = "none";
+            document.getElementById("gamecover").style.display = "none";
+            document.getElementById("chooseavator").style.display = "none";
+            document.getElementById("maingame").style.display = "block";
+            document.getElementById('clicksound').play();
+            BGImg.style.backgroundImage = "url('images/lpc1/background.jpg')";
+            BGImg.style.aspectRatio = "auto";
+            BGImg.style.height = "fit-content";
+            initBoard(boardSize);
+        }
+
         // Initialize the board
         function initBoard(size) {
             var screensize = window.innerWidth;
             if (screensize <= 600) {
                 boardSize = 8;
+            } else if (screensize <= 1064 && screensize > 600) {
+                boardSize = 15;
             } else {
                 boardSize = size;
             }
 
             board = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-            boardElement.innerHTML = ''; // Clear the board
+            boardElement.innerHTML = '';
             boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 40px)`;
             boardElement.style.gridTemplateRows = `repeat(${boardSize}, 40px)`;
 
@@ -470,6 +671,14 @@
 
         // Handle cell click event
         function handleCellClick(event) {
+            const cell = event.target.closest('.cell');
+            if (!cell) return;
+
+            if (specialMode) {
+                handleSpecialCellClick(cell);
+                return;
+            }
+
             const row = event.target.dataset.row;
             const col = event.target.dataset.col;
             document.getElementById('clicksound').play();
@@ -477,42 +686,54 @@
             if (board[row][col] || checkWinner()) return;
 
             board[row][col] = currentPlayer;
-            const piece = document.createElement('div');
+            const piece = document.createElement("div");
             piece.className = `piece ${currentPlayer}`;
-            event.target.appendChild(piece);
+            cell.appendChild(piece);
             hideOverlayPiece();
 
             if (checkWinner()) {
-                if(currentPlayer == 'black'){
-                    messageElement.textContent ="";
+                if (currentPlayer === Piece2) {
+                    messageElement.textContent = "";
                     messageElement.appendChild(teacherimg);
                     messageElement.style.background = "linear-gradient(#d695ff, #984ee7)";
-                }else{
-                    messageElement.textContent ="";
+                } else {
+                    messageElement.textContent = "";
                     messageElement.appendChild(studentimg);
                     messageElement.style.background = "linear-gradient(#ff95e4, #e74ec6)";
                 }
-          
-                messageElement.style.display = 'block';
-                document.getElementById('victorysound').play();
+                clearTimeout(showcardtimer);
+                messageElement.style.display = "block";
+                document.getElementById("victorysound").play();
                 setTimeout(() => {
-                    restartButton.style.display = 'block';
-                    quitButton.style.display = 'block';
+                    restartButton.style.display = "block";
+                    quitButton.style.display = "block";
                 }, 1000);
             } else {
-                currentPlayer = currentPlayer === 'black' ? 'white' : 'black';
+                currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
                 updateAvatarBorder();
             }
         }
 
         // Update avatar border
         function updateAvatarBorder() {
-            if (currentPlayer === 'black') {
+            if (currentPlayer === Piece1) {
                 blackAvatar.classList.add('active');
                 whiteAvatar.classList.remove('active');
+                A1Defence.addEventListener("click", () => handleSpecialPieceClick("Defence"));
+                A1Attack.addEventListener("click", () => handleSpecialPieceClick("Attack"));
+                A1Surround.addEventListener("click", () => handleSpecialPieceClick("Surround"));
+                A2Defence.removeEventListener("click", () => handleSpecialPieceClick("Defence"));
+                A2Attack.removeEventListener("click", () => handleSpecialPieceClick("Attack"));
+                A2Surround.removeEventListener("click", () => handleSpecialPieceClick("Surround"));
             } else {
                 whiteAvatar.classList.add('active');
                 blackAvatar.classList.remove('active');
+                A1Defence.removeEventListener("click", () => handleSpecialPieceClick("Defence"));
+                A1Attack.removeEventListener("click", () => handleSpecialPieceClick("Attack"));
+                A1Surround.removeEventListener("click", () => handleSpecialPieceClick("Surround"));
+                A2Defence.addEventListener("click", () => handleSpecialPieceClick("Defence"));
+                A2Attack.addEventListener("click", () => handleSpecialPieceClick("Attack"));
+                A2Surround.addEventListener("click", () => handleSpecialPieceClick("Surround"));
             }
         }
 
@@ -549,6 +770,124 @@
             return count === 5;
         }
 
+        // Update petal color
+        function updatePetalColor(player) {
+            const powerElement = player === Piece1 ? document.getElementById("blackPower") : document.getElementById("whitePower");
+            const petals = powerElement.querySelectorAll(".petal");
+            const count = player === Piece1 ? blackSpecialCount : whiteSpecialCount;
+
+            for (let i = 0; i < petals.length; i++) {
+                petals[i].style.borderTopColor = i < count ? "rgba(20, 30, 255, 0.5)" : "lightgrey";
+            }
+        }
+
+        // Handle special piece click
+        function handleSpecialPieceClick(pieceType) {
+            if (currentPlayer === Piece1 && blackSpecialCount === 0) {
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.textContent = "玩家一 已用完所有特殊棋！";
+                showmessage();
+                return;
+            } else if (currentPlayer === Piece2 && whiteSpecialCount === 0) {
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.textContent = "玩家二 已用完所有特殊棋！";
+                showmessage();
+                return;
+            }
+            specialMode = pieceType;
+            event.target.classList.add('active');
+            document.getElementById('clicksound').play();
+        }
+
+        // Handle cell click for special pieces
+        function handleSpecialCellClick(cell) {
+            const row = parseInt(cell.dataset.row, 10);
+            const col = parseInt(cell.dataset.col, 10);
+
+            if (specialMode === "Defence") {
+            if (board[row][col] === currentPlayer) {
+                defensePieces.add(`${row},${col}`);
+                cell.classList.add('defenced');
+                specialMode = null;
+                reduceSpecialCount();
+            } else {
+                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                messageElement.textContent = "你只能保衛自己的棋子！";
+                showmessage();
+            }
+            } else if (specialMode === "Attack") {
+            let removed = 0;
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                const newRow = row + i;
+                const newCol = col + j;
+                if (
+                    newRow >= 0 && newRow < boardSize &&
+                    newCol >= 0 && newCol < boardSize &&
+                    board[newRow][newCol] &&
+                    board[newRow][newCol] !== currentPlayer &&
+                    !defensePieces.has(`${newRow},${newCol}`)
+                ) {
+                    board[newRow][newCol] = null;
+                    const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+                    targetCell.innerHTML = "";
+                    removed++;
+                    if (removed >= 3) break;
+                }
+                }
+                if (removed >= 3) break;
+            }
+            specialMode = null;
+            reduceSpecialCount();
+            } else if (specialMode === "Surround") {
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                const newRow = row + i;
+                const newCol = col + j;
+                if (
+                    (i !== 0 || j !== 0) && // Exclude the selected piece
+                    newRow >= 0 && newRow < boardSize &&
+                    newCol >= 0 && newCol < boardSize
+                ) {
+                    const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+                    if (!board[newRow][newCol] || board[newRow][newCol] !== currentPlayer) {
+                    board[newRow][newCol] = currentPlayer;
+                    targetCell.innerHTML = "";
+                    const piece = document.createElement("div");
+                    piece.className = `piece ${currentPlayer}`;
+                    targetCell.appendChild(piece);
+                    }
+                }
+                }
+            }
+            specialMode = null;
+            reduceSpecialCount();
+
+            if (currentPlayer == Piece1) {
+                A1Surround.style.display = "none";
+            } else {
+                A2Surround.style.display = "none";
+            }
+            }
+        }
+
+        // Reduce special count and update UI
+        function reduceSpecialCount() {
+            A1Defence.classList.remove('active');
+            A2Defence.classList.remove('active');
+            A1Attack.classList.remove('active');
+            A2Attack.classList.remove('active');
+            A1Surround.classList.remove('active');
+            A2Surround.classList.remove('active');
+            if (currentPlayer === Piece1) {
+                blackSpecialCount--;
+                updatePetalColor(Piece1);
+            } else {
+                whiteSpecialCount--;
+                updatePetalColor(Piece2);
+            }
+        }
+
         // Create board on button click
         createBoardButton.addEventListener('click', () => {
             const size = parseInt(sizeInput.value, 10);
@@ -558,6 +897,12 @@
                 alert('請輸入有效的棋盤大小（5到30）');
             }
         });
+
+        function showmessage() {
+            clearTimeout(showcardtimer);
+            messageElement.style.display = 'block';
+            showcardtimer = setTimeout(() => { messageElement.style.display = 'none'; }, 2000);
+        }
 
         restartButton.addEventListener('click', () => {
             initBoard(boardSize);
