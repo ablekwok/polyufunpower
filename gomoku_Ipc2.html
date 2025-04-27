@@ -196,7 +196,7 @@
             background-attachment: fixed;
             padding: 20px;
             border-radius: 25px;
-            border: 5px solid #fffefd;
+            border: 5px solid #ffffff;
         }
 
         .messagebox {
@@ -390,7 +390,7 @@
             <div id="message"></div>
             <button class="mainbutton" id="restart" style="left:36%; padding: 0; margin: 0; background-color: transparent; border: 0px;"><img style="width: 16vw; min-width: 100px; max-width: 200px; padding: 0;"
                 src="images/lpc2/Restartv1.png" alt="再來一局"></button>
-        <button class="mainbutton" id="quit" style="left:56%; padding: 0; margin: 0; background-color: transparent; border: 0px;"><img style="width: 16vw; min-width: 100px; max-width: 200px; padding: 0;" src="images/lpc2/Quitv1.png"
+        <button class="mainbutton" id="quit" style="left:60%; padding: 0; margin: 0; background-color: transparent; border: 0px;"><img style="width: 16vw; min-width: 100px; max-width: 200px; padding: 0;" src="images/lpc2/Quitv1.png"
                 alt="退出"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
@@ -406,6 +406,7 @@
         let scene;
         let boardSize = 18;
         let board;
+        let piecenum = 0;
         let currentPlayer;
         let canPlay = false;
         let canDrawCard = true;
@@ -484,7 +485,6 @@
             document.getElementById("bgmusic").play();
             document.getElementById('clicksound').play();
             document.getElementById("loadgamemask").style.display = "none";
-            // document.getElementById("gamemenu").style.display = "block";
         }
 
         function Theme1() {
@@ -505,8 +505,6 @@
         function Theme2() {
             document.getElementById('clicksound').play();
             TitleText.style.top = "30%";
-            //backgroundnum = Math.floor(Math.random() * 2) + 1;
-            //BGImg.style.backgroundImage = "url('images/lpc2/S1BG"+backgroundnum+".jpg')";
             BGImg.style.backgroundImage = "url('images/lpc2/S2BG2.jpg')";
             AvatorOptions[0].src = "images/lpc2/S2C1.png";
             AvatorOptions[1].src = "images/lpc2/S2C2.png";
@@ -520,8 +518,6 @@
         function Theme3() {
             document.getElementById('clicksound').play();
             TitleText.style.top = "30%";
-            //backgroundnum = Math.floor(Math.random() * 2) + 1;
-            //BGImg.style.backgroundImage = "url('images/lpc2/S1BG"+backgroundnum+".jpg')";
             BGImg.style.backgroundImage = "url('images/lpc2/S3Cover.jpg')";
             AvatorOptions[0].src = "images/lpc2/S3C1.png";
             AvatorOptions[1].src = "images/lpc2/S3C2.png";
@@ -561,7 +557,6 @@
             if (theme == 3) {
                 BGImg.style.backgroundImage = "";
             }
-            //window.open("gomoku_basic_duel.html","_self").focus();
             document.getElementById("chooseavator").style.display = "block";
             avatormessage.textContent = "玩家一";
             AvatorOptions.forEach((AvatorOption) => {
@@ -609,8 +604,7 @@
                 }
             }
                 SetPlayer2();
-            }, 1500
-            );
+            }, 1000 );
         }
 
 
@@ -751,16 +745,19 @@
             const piece = document.createElement('div');
             piece.className = `piece ${currentPlayer}`;
             event.target.appendChild(piece);
+            piecenum++;
             hideOverlayPiece();
 
             if (checkWinner()) {
-                console.log(currentPlayer+" Win!");
+                //console.log(currentPlayer+" Win!");
                 messageElement.style.background = "transparent";
                 messageElement.style.border = "0px";
                 if(currentPlayer == Piece1){
                     messageElement.textContent ="";
                     if(theme==1){
-                        messageElement.appendChild(S1C1img);
+                        messageElement.textContent ="靈珠 勝出";
+                        messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                        messageElement.style.border = " 5px solid #ffffff";
                     }
                     if(theme==2){
                         messageElement.appendChild(S2C1img);
@@ -772,7 +769,9 @@
                 }else{
                     messageElement.textContent ="";
                     if(theme==1){
-                        messageElement.appendChild(S1C2img);
+                        messageElement.textContent ="魔丸 勝出";
+                        messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                        messageElement.style.border = " 5px solid #ffffff";
                     }
                     if(theme==2){
                         messageElement.appendChild(S2C2img);
@@ -824,7 +823,7 @@
 
             if (randomNum < 0.05) {
                 card = 'gold'; // 5% chance
-            } else if (randomNum < 0.25) { // (0.05 + 0.20 = 0.25)
+            } else if (randomNum < 0.25 && piecenum >=4 ) { // (0.05 + 0.20 = 0.25)
                 card = 'black'; // 20% chance
             } else {
                 card = 'yellow'; // 75% chance
@@ -851,37 +850,43 @@
                 showcard();
                 console.log("可以下棋！");
             } else {
-                canPlay = false; // 玩家不能下棋，輪到另一位玩家
+                canPlay = false; 
                 canDrawCard = false;
-                messageElement.textContent = "";
-                cardimg.src = badcard;
-                messageElement.appendChild(cardimg);
+                //messageElement.textContent = "";
+                //cardimg.src = badcard;
+                //messageElement.appendChild(cardimg);
                 messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
                 showcard();
-                console.log("無法下棋，輪到另一位玩家！");
-
                 // Allow player to remove one piece
-                messageElement.textContent = "移除一顆棋子！";
+                messageElement.textContent = "移除一顆對方的棋子！";
                 boardElement.addEventListener('click', handleRemovePiece, { once: true });
             }
             }
         }
 
         function handleRemovePiece(event) {
-            const cell = event.target;
+            const cell = event.target.closest('.cell'); // Ensure the clicked element is a cell
+            if (!cell) return;
+        
             const row = cell.dataset.row;
             const col = cell.dataset.col;
-
-            if (row !== undefined && col !== undefined && board[row][col]) {
-            board[row][col] = null; // Remove the piece from the board array
-            cell.innerHTML = ''; // Clear the piece visually
-            console.log(`移除了棋子: (${row}, ${col})`);
-            currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
-            updateAvatarBorder();
+        
+            if (row !== undefined && col !== undefined && board[row][col] && board[row][col] !== currentPlayer) {
+                board[row][col] = null;
+                cell.innerHTML = '';
+                console.log(`移除了棋子: (${row}, ${col})`);
+                piecenum--;
+                currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
+                messageElement.style.display = 'none';
+                setTimeout(() => {
+                updateAvatarBorder();
+            }, 1000 );
+            } else if(row == undefined && col == undefined && board[row][col]){
+                messageElement.textContent = "可移除對方的棋子！";
+                boardElement.addEventListener('click', handleRemovePiece, { once: true });
             } else {
-            console.log("無效的移除操作！");
-           // messageElement.textContent = "只可移除對方的棋子！";
-            boardElement.addEventListener('click', handleRemovePiece, { once: true });
+                messageElement.textContent = "只可移除對方的棋子！";
+                boardElement.addEventListener('click', handleRemovePiece, { once: true });
             }
         }
 
