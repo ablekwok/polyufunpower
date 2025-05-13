@@ -366,17 +366,42 @@
         <!-- //Note: Game Menu -->
         <div id="gamecover">
             <div id="gamemenu" style="display: none; aspect-ratio: 4 / 3;">
-                <div class="titleimg" style="width: 27%; top:17%; left:83%;">
+<div id="gameinstruction" style="display: none; background-color: antiquewhite; margin: auto; border-radius: 30px; border: 5px solid #fffefd; position: absolute; z-index: 999; width:80%; left:10%; top:5%;">
+<div style="font-size: larger; padding: 2%;"><strong>遊戲簡介</strong>
+    <br><br>
+    Hi 大家好，<br>
+    我們小組的遊戲叫做 「劉本章五子棋」 (好難玩)。<br>
+    這個遊戲 2 位玩家一起玩。<br><br>
+    <div style="text-align: left;">
+    遊戲的玩法是:<br>
+    1) 將自己的棋排成一行，橫 豎 鈄 都可以<br>
+    2) 玩家有五次機會使用特殊棋: <br>
+    守護棋: 可以保護一顆棋子不被炸彈破壞<br>
+    炸彈棋: 破壞最近的三顆棋子<br>
+    圍棋: 把棋子的四周變成自己的棋子 (只可使用兩次)<br>
+    <br><br>
+    勝利條件: <br>
+    最快讓五顆棋子連成一排，橫 豎 鈄 都可以
+    <br><br>
+    我們遊戲的特色是:<br>
+    適合劉本章學校聰明的學生一起對決的五子棋遊戲!
+    <br>
+</div>
+<button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="CloseInstruction()">明白</button>
+</div>
+</div>
 
+                <div class="titleimg" style="width: 27%; top:17%; left:83%;">
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
                         <img width="95%" src="images/lpc1/logo.png" alt="五子棋">
                     </div>
-
                 </div>
+
                 <div class="blackoverlay animate__animated animate__faster animate__fadeIn animate__delay-1s">
                     <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="ShowCharactors()"><img
                             style="width: 18vw; min-width: 120px; max-width: 250px;" src="images/lpc1/startgame.png" alt="開始遊戲"></button>
                 </div>
+
             </div>
         </div>
 
@@ -458,30 +483,37 @@
                     src="images/lpc1/quit.png" alt="退出"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
-    </div>
 
-    <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
-    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
-    <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
+    </div>
+    <div style="font-size: smaller;">© 2025 PolyU Fun Power Co-Design Workshop 及 三水同鄉會劉本章學校. All Rights Reserved.</div>
+    <audio id="clicksound" src="images/Pop.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="images/Ambient.mp3" preload="auto" loop></audio>
+    <audio id="victorysound" src="images/Clapping.mp3" preload="auto"></audio>
+    <audio id="playersound" src="images/Zoop.mp3" preload="auto"></audio>
+    <audio id="startsound" src="images/Connect.mp3" preload="auto"></audio>
+    <audio id="specialsound" src="images/Low Whoosh.mp3" preload="auto"></audio>
+    <audio id="guardsound" src="images/Boing.mp3" preload="auto"></audio>
+    <audio id="surroundsound" src="images/MagicSpell.mp3" preload="auto"></audio>
+    <audio id="bombsound" src="images/explosion.mp3" preload="auto"></audio>
     <script>
-    
+
         let boardSize = 18;
         let board;
         let piecenum = 0;
         let currentPlayer;
-        let canPlay = false;
-        let canDrawCard = true;
+
         let Avator1;
         let Piece1;
         let Avator2;
         let Piece2;
-        let card;
-        let double = 1;
+
         let showcardtimer;
         let blackSpecialCount = 5;
         let whiteSpecialCount = 5;
         let defensePieces = new Set();
         let specialMode = null;
+        let surroundPlayer1 = 0;
+        let surroundPlayer2 = 0;
 
         const boardElement = document.getElementById('board');
         const messageElement = document.getElementById('message');
@@ -518,15 +550,23 @@
 
 
         function loadgame() {
+            document.getElementById("bgmusic").volume = 0.2;
             document.getElementById("bgmusic").play();
             document.getElementById("loadgamemask").style.display = "none";
             document.getElementById("gamemenu").style.display = "block";
             window.addEventListener('keydown', ShowCharactors);
+
+            setTimeout(() => {  document.getElementById("gameinstruction").style.display = 'block'; }, 1000);
+        }
+
+        function CloseInstruction(){
+            document.getElementById('clicksound').play();
+            document.getElementById("gameinstruction").style.display = "none";
         }
 
         function ShowCharactors() {
             window.removeEventListener('keydown', ShowCharactors);
-            document.getElementById('clicksound').play();
+            document.getElementById('startsound').play();
             document.getElementById("gamecover").style.display = "none";
             BGImg.style.backgroundImage = "url('images/lpc1/VS.jpg')";
             document.getElementById("VSScene").style.display = "block";
@@ -534,7 +574,7 @@
 
         function chooseAvator() {
             document.getElementById("VSScene").style.display = "none";
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             BGImg.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
             BGImg.style.backgroundBlendMode = "lighten";
             BGImg.style.backgroundImage = "";
@@ -547,9 +587,10 @@
 
         function Player1Avator() {
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             Avator1 = this.src;
             blackAvatar.src = Avator1;
+            blackAvatar.name = this.name;
             console.log(Avator1 + " | Name:" + this.name);
             avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
             AvatorOptions.forEach((AvatorOption) => {
@@ -582,9 +623,10 @@
 
         function Player2Avator() {
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             Avator2 = this.src;
             whiteAvatar.src = Avator2;
+            whiteAvatar.name = this.name;
             console.log(Avator2 + " | Name:" + this.name);
             avatormessage.classList.remove('animate__animated', 'animate__rubberBand', 'animate__slow');
             this.style.display = "none";
@@ -693,13 +735,25 @@
 
             if (checkWinner()) {
                 if (currentPlayer === Piece2) {
-                    messageElement.textContent = "";
-                    messageElement.appendChild(teacherimg);
-                    messageElement.style.background = "linear-gradient(#d695ff, #984ee7)";
+                    if (whiteAvatar.name == "C1") {
+                        messageElement.textContent = "";
+                        messageElement.appendChild(studentimg);
+                        messageElement.style.background = "linear-gradient(#ff95e4, #e74ec6)";
+                    } else {
+                        messageElement.textContent = "";
+                        messageElement.appendChild(teacherimg);
+                        messageElement.style.background = "linear-gradient(#d695ff, #984ee7)";
+                    }
                 } else {
-                    messageElement.textContent = "";
-                    messageElement.appendChild(studentimg);
-                    messageElement.style.background = "linear-gradient(#ff95e4, #e74ec6)";
+                    if (blackAvatar.name == "C1") {
+                        messageElement.textContent = "";
+                        messageElement.appendChild(studentimg);
+                        messageElement.style.background = "linear-gradient(#ff95e4, #e74ec6)";
+                    } else {
+                        messageElement.textContent = "";
+                        messageElement.appendChild(teacherimg);
+                        messageElement.style.background = "linear-gradient(#d695ff, #984ee7)";
+                    }
                 }
                 clearTimeout(showcardtimer);
                 messageElement.style.display = "block";
@@ -716,25 +770,47 @@
 
         // Update avatar border
         function updateAvatarBorder() {
+            document.getElementById("specialsound").play();
             if (currentPlayer === Piece1) {
                 blackAvatar.classList.add('active');
                 whiteAvatar.classList.remove('active');
                 A1Defence.addEventListener("click", () => handleSpecialPieceClick("Defence"));
                 A1Attack.addEventListener("click", () => handleSpecialPieceClick("Attack"));
                 A1Surround.addEventListener("click", () => handleSpecialPieceClick("Surround"));
-                A2Defence.removeEventListener("click", () => handleSpecialPieceClick("Defence"));
-                A2Attack.removeEventListener("click", () => handleSpecialPieceClick("Attack"));
-                A2Surround.removeEventListener("click", () => handleSpecialPieceClick("Surround"));
+
+                A1Defence.style.display = "block";
+                A1Attack.style.display = "block";
+
+                if (surroundPlayer1 == 2) {
+                    A1Surround.style.display = "none";
+                } else {
+                    A1Surround.style.display = "block";
+                }
+
+                A2Defence.style.display = "none";
+                A2Attack.style.display = "none";
+                A2Surround.style.display = "none";
+
             } else {
                 whiteAvatar.classList.add('active');
                 blackAvatar.classList.remove('active');
-                A1Defence.removeEventListener("click", () => handleSpecialPieceClick("Defence"));
-                A1Attack.removeEventListener("click", () => handleSpecialPieceClick("Attack"));
-                A1Surround.removeEventListener("click", () => handleSpecialPieceClick("Surround"));
+
                 A2Defence.addEventListener("click", () => handleSpecialPieceClick("Defence"));
                 A2Attack.addEventListener("click", () => handleSpecialPieceClick("Attack"));
                 A2Surround.addEventListener("click", () => handleSpecialPieceClick("Surround"));
+
+                A1Defence.style.display = "none";
+                A1Attack.style.display = "none";
+                A1Surround.style.display = "none";
+                A2Defence.style.display = "block";
+                A2Attack.style.display = "block";
+                if (surroundPlayer2 == 2) {
+                    A2Surround.style.display = "none";
+                } else {
+                    A2Surround.style.display = "block";
+                }
             }
+
         }
 
         // Check for a winner
@@ -772,6 +848,7 @@
 
         // Update petal color
         function updatePetalColor(player) {
+
             const powerElement = player === Piece1 ? document.getElementById("blackPower") : document.getElementById("whitePower");
             const petals = powerElement.querySelectorAll(".petal");
             const count = player === Piece1 ? blackSpecialCount : whiteSpecialCount;
@@ -805,69 +882,80 @@
             const col = parseInt(cell.dataset.col, 10);
 
             if (specialMode === "Defence") {
-            if (board[row][col] === currentPlayer) {
-                defensePieces.add(`${row},${col}`);
-                cell.classList.add('defenced');
-                specialMode = null;
-                reduceSpecialCount();
-            } else {
-                messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
-                messageElement.textContent = "你只能保衛自己的棋子！";
-                showmessage();
-            }
+                if (board[row][col] === currentPlayer) {
+                    document.getElementById("guardsound").play();
+                    defensePieces.add(`${row},${col}`);
+                    cell.classList.add('defenced');
+                    specialMode = null;
+                    reduceSpecialCount();
+                } else {
+                    messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
+                    messageElement.textContent = "你只能保衛自己的棋子！";
+                    showmessage();
+                }
             } else if (specialMode === "Attack") {
-            let removed = 0;
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                const newRow = row + i;
-                const newCol = col + j;
-                if (
-                    newRow >= 0 && newRow < boardSize &&
-                    newCol >= 0 && newCol < boardSize &&
-                    board[newRow][newCol] &&
-                    board[newRow][newCol] !== currentPlayer &&
-                    !defensePieces.has(`${newRow},${newCol}`)
-                ) {
-                    board[newRow][newCol] = null;
-                    const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
-                    targetCell.innerHTML = "";
-                    removed++;
+                let removed = 0;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        const newRow = row + i;
+                        const newCol = col + j;
+                        if (
+                            newRow >= 0 && newRow < boardSize &&
+                            newCol >= 0 && newCol < boardSize &&
+                            board[newRow][newCol] &&
+                            board[newRow][newCol] !== currentPlayer &&
+                            !defensePieces.has(`${newRow},${newCol}`)
+                        ) {
+                            document.getElementById("bombsound").play();
+                            board[newRow][newCol] = null;
+                            const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+                            targetCell.innerHTML = "";
+                            removed++;
+                            if (removed >= 3) break;
+                        }
+                    }
                     if (removed >= 3) break;
                 }
-                }
-                if (removed >= 3) break;
-            }
-            specialMode = null;
-            reduceSpecialCount();
+                specialMode = null;
+                reduceSpecialCount();
             } else if (specialMode === "Surround") {
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                const newRow = row + i;
-                const newCol = col + j;
-                if (
-                    (i !== 0 || j !== 0) && // Exclude the selected piece
-                    newRow >= 0 && newRow < boardSize &&
-                    newCol >= 0 && newCol < boardSize
-                ) {
-                    const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
-                    if (!board[newRow][newCol] || board[newRow][newCol] !== currentPlayer) {
-                    board[newRow][newCol] = currentPlayer;
-                    targetCell.innerHTML = "";
-                    const piece = document.createElement("div");
-                    piece.className = `piece ${currentPlayer}`;
-                    targetCell.appendChild(piece);
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        const newRow = row + i;
+                        const newCol = col + j;
+                        if (
+                            (i !== 0 || j !== 0) && // Exclude the selected piece
+                            newRow >= 0 && newRow < boardSize &&
+                            newCol >= 0 && newCol < boardSize
+                        ) {
+                            document.getElementById("surroundsound").play();
+                            const targetCell = boardElement.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+                            if (!board[newRow][newCol] || board[newRow][newCol] !== currentPlayer) {
+                                board[newRow][newCol] = currentPlayer;
+                                targetCell.innerHTML = "";
+                                const piece = document.createElement("div");
+                                piece.className = `piece ${currentPlayer}`;
+                                targetCell.appendChild(piece);
+                            }
+                        }
                     }
                 }
-                }
-            }
-            specialMode = null;
-            reduceSpecialCount();
+                specialMode = null;
+                reduceSpecialCount();
 
-            if (currentPlayer == Piece1) {
-                A1Surround.style.display = "none";
-            } else {
-                A2Surround.style.display = "none";
-            }
+                if (currentPlayer == Piece1 && surroundPlayer1 < 2) {
+                    surroundPlayer1++;
+                } else {
+                    surroundPlayer2++;
+                }
+                if (currentPlayer == Piece1 && surroundPlayer1 == 2) {
+                    A1Surround.style.display = "none";
+                }
+
+                if (currentPlayer == Piece2 && surroundPlayer2 == 2) {
+                    A2Surround.style.display = "none";
+                }
+
             }
         }
 
@@ -905,8 +993,20 @@
         }
 
         restartButton.addEventListener('click', () => {
-            initBoard(boardSize);
+             piecenum = 0;
+             double = 1;
+             blackSpecialCount = 5;
+             whiteSpecialCount = 5;
+             defensePieces = new Set();
+             specialMode = null;
+             surroundPlayer1 = 0;
+             surroundPlayer2 = 0;
+            const petals = document.querySelectorAll(".petal");
+            for (let p = 0; p < petals.length; p++) {
+                petals[p].style.borderTopColor = "rgba(20, 30, 255, 0.5)";
+            }
             document.getElementById('clicksound').play();
+            initBoard(boardSize);
         });
 
         quitButton.addEventListener('click', () => {

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Iansui&family=Righteous&display=swap" rel="stylesheet">
-    <title>電影五子棋</title>
+    <title>創意五子棋</title>
     <style>
         .righteous-regular {
             font-family: "Righteous", sans-serif;
@@ -311,6 +311,7 @@
 
 <body>
     <div class="container">
+        <button id="muteButton" style="position: absolute; top: 10px; right: 10px; z-index: 1000; padding: 10px; font-size: 16px;">🔊</button>
 
         <!-- //Note: Loading Page -->
         <div id="loadgamemask"><img id="loadgame" class="titleimg" style="width: 25%; z-index: 999; cursor: pointer; top: 50%; left: 50%;"
@@ -331,6 +332,32 @@
 
         <!-- //Note: Game Menu -->
         <div id="gamecover">
+
+            <div id="gameinstruction" style="display: none; background-color: antiquewhite; margin: auto; border-radius: 30px; border: 5px solid #fffefd; position: absolute; z-index: 999; width:80%; left:10%; top:5%;">
+                <div style="font-size: larger; padding: 2%;"><strong>遊戲簡介</strong>
+                    <br><br>
+                    Hi 大家好，<br>
+                    我們小組的遊戲叫做 「創意五子棋」。<br>
+                    這個遊戲 2 位玩家一起玩。<br><br>
+                    <div style="text-align: left;">
+                    遊戲的玩法是:<br>
+                    1) 選「開始」，選一個主題之後就選角色和棋<br>
+                    2) 然後每次下棋前要抽一張卡<br>
+                    3) 如果抽到可以下棋就可以下一個棋子<br>
+                    4) 如果抽到移除對方的棋子，就可以阻止對方勝利
+                    <br><br>
+                    勝利條件: <br>
+                    讓五顆棋子連成一條線
+                    <br><br>
+                    我們遊戲的特色是:<br>
+                   1) 用來自不同國家的動畫和角色、自己創作的角色
+                   2) 可以分享同學一起玩
+                    <br>
+                </div>
+                <button class="animate__animated animate__pulse animate__slow animate__infinite" onclick="CloseInstruction()">明白</button>
+                </div>
+                </div>
+
             <div id="gamemenu" style="display: none; aspect-ratio: 4 / 3;">
                 <div class="titleimg">
                     <div class="animate__animated animate__rubberBand  animate__slow animate__infinite">
@@ -391,13 +418,16 @@
                 alt="退出"></button>
         </div>
         <div class="overlay-piece" id="overlayPiece"></div>
-
-
     </div>
+    <div style="font-size: smaller;">© 2025 PolyU Fun Power Co-Design Workshop 及 三水同鄉會劉本章學校. All Rights Reserved.</div>
+    <audio id="clicksound" src="images/Connect.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="images/VideoGame1.mp3" preload="auto" loop></audio>
+    <audio id="victorysound" src="images/Tada.mp3" preload="auto"></audio>
+    <audio id="playersound" src="images/Boing.mp3" preload="auto"></audio>
+    <audio id="greatcardsound" src="images/MagicSpell.mp3" preload="auto"></audio>
+    <audio id="goodcardsound" src="images/Low Whoosh.mp3" preload="auto"></audio>
+    <audio id="badcardsound" src="images/DunDun.mp3" preload="auto"></audio>
 
-    <audio id="clicksound" src="images/bubblepop.mp3" preload="auto"></audio>
-    <audio id="bgmusic" src="images/funnycheers.mp3" preload="auto" loop></audio>
-    <audio id="victorysound" src="images/victory01.mp3" preload="auto"></audio>
     <script>
 
         let scene;
@@ -478,10 +508,29 @@
         S3C2img.style.minWidth = "180px";
         S3C2img.style.maxWidth = "300px";
 
+        const muteButton = document.getElementById('muteButton');
+    let isMuted = false;
+
+    muteButton.addEventListener('click', () => {
+        isMuted = !isMuted;
+        const audioElements = document.querySelectorAll('audio');
+        audioElements.forEach(audio => {
+            audio.muted = isMuted;
+        });
+        muteButton.textContent = isMuted ? '🔇' : '🔊';
+    });
+
         function loadgame() {
+            document.getElementById("bgmusic").volume = 0.2;
             document.getElementById("bgmusic").play();
             document.getElementById('clicksound').play();
             document.getElementById("loadgamemask").style.display = "none";
+
+            setTimeout(() => {  document.getElementById("gameinstruction").style.display = 'block'; }, 1000);
+        }
+        function CloseInstruction(){
+            document.getElementById('clicksound').play();
+            document.getElementById("gameinstruction").style.display = "none";
         }
 
         function Theme1() {
@@ -542,7 +591,7 @@
 
         function chooseAvator() {
             document.getElementById("VSScene").style.display = "none";
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             BGImg.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
             BGImg.style.backgroundBlendMode = "lighten";
             if (theme == 1) {
@@ -563,7 +612,7 @@
 
         function Player1Avator() {
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             Avator1 = this.src;
             blackAvatar.src = Avator1;
             console.log(Avator1 + " | Name:" + this.name);
@@ -618,7 +667,7 @@
 
         function Player2Avator() {
             this.classList.add("active")
-            document.getElementById('clicksound').play();
+            document.getElementById('playersound').play();
             Avator2 = this.src;
             whiteAvatar.src = Avator2;
             console.log(Avator2 + " | Name:" + this.name);
@@ -819,6 +868,7 @@
         function drawCard() {
             if (canDrawCard == true) {
             const randomNum = Math.random();
+    
 
             if (randomNum < 0.05) {
                 card = 'gold'; // 5% chance
@@ -838,6 +888,7 @@
                 messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
                 showcard();
                 console.log("可以下棋！");
+                document.getElementById('goodcardsound').play();
             } else if (card === 'gold') {
                 double = 1;
                 canPlay = true;
@@ -848,6 +899,7 @@
                 messageElement.style.background = "linear-gradient(rgb(255, 229, 167), rgb(189, 150, 81))";
                 showcard();
                 console.log("可以下棋！");
+                document.getElementById('greatcardsound').play();
             } else {
                 canPlay = false; 
                 canDrawCard = false;
@@ -856,6 +908,7 @@
                 //messageElement.appendChild(cardimg);
                 messageElement.style.background = "linear-gradient(rgb(147, 147, 147), rgb(102, 102, 102))";
                 showcard();
+                document.getElementById('badcardsound').play();
                 // Allow player to remove one piece
                 messageElement.textContent = "移除一顆對方的棋子！";
                 boardElement.addEventListener('click', handleRemovePiece, { once: true });
@@ -877,6 +930,7 @@
                 piecenum--;
                 currentPlayer = currentPlayer === Piece1 ? Piece2 : Piece1;
                 messageElement.style.display = 'none';
+                document.getElementById('clicksound').play();
                 setTimeout(() => {
                 updateAvatarBorder();
             }, 1000 );
